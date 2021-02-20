@@ -7,7 +7,7 @@
 5. assembly languages -язык сборки  <br>
 6. asset management – управление активами<br>
 7. binary values  - бинарные значения<br>
-8. built-in - встроенный <br><br>
+8. built-in - встроенный <br>
 9. compiler - компилятор <br>
 10. concerned – обеспокоенный<br>
 11. concurrency -паралелизм, совпадение,<br>
