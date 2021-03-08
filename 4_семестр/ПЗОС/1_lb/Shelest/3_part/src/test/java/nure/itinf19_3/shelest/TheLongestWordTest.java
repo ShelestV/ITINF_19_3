@@ -13,4 +13,14 @@ public class TheLongestWordTest {
 
         Assertions.assertEquals(expected, actual);
     }
+    
+    @Test
+    public void findLongestWord_NullTest() {
+        String str = null;
+
+        String actual = TheLongestWord.findTheLongestWord(str);
+        String expected = "";
+
+        Assertions.assertEquals(expected, actual);
+    }
 }
