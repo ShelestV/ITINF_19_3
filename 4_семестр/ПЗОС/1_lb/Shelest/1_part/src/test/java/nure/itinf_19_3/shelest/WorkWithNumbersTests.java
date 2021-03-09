@@ -20,6 +20,13 @@ public class WorkWithNumbersTests {
     }
 
     @Test
+    public void getAvarageValueNullTest() {
+        double actual = WorkWithNumbers.getAvarageValue(null);
+        double expected = 0.0;
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void getValuesLessThenAvarageValueTest() {
         List<Integer> array = new ArrayList<>();
         array.add(1);
@@ -34,6 +41,14 @@ public class WorkWithNumbersTests {
     }
 
     @Test
+    public void getValuesLessThenAvarageValueNullTest() {
+        List<Integer> actual = WorkWithNumbers.getValuesLessThenAvarageValue(null);
+        List<Integer> expected = new ArrayList<>();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void getValuesGreaterThenAvarageValueTest() {
         List<Integer> array = new ArrayList<>();
         array.add(1);
@@ -43,6 +58,14 @@ public class WorkWithNumbersTests {
         List<Integer> actual = WorkWithNumbers.getValueGreaterThenAvarageValue(array);
         List<Integer> expected = new ArrayList<>();
         expected.add(6);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getValuesGreaterThenAvarageValueNullTest() {
+        List<Integer> actual = WorkWithNumbers.getValueGreaterThenAvarageValue(null);
+        List<Integer> expected = new ArrayList<>();
+
         Assertions.assertEquals(expected, actual);
     }
 }

@@ -25,6 +25,10 @@ public class WorkWithNumbers {
     }
 
     public static double getAvarageValue(List<Integer> array) {
+        if (array == null) {
+            return 0.0;
+        }
+
         double result = 0.0;
         for (int value : array) {
             result += value;
@@ -34,6 +38,10 @@ public class WorkWithNumbers {
     }
 
     public static List<Integer> getValuesLessThenAvarageValue(List<Integer> array) {
+        if (array == null) {
+            return new ArrayList<>();
+        }
+
         List<Integer> result = new ArrayList<>();
 
         double avg = getAvarageValue(array);
@@ -46,6 +54,10 @@ public class WorkWithNumbers {
     }
 
     public static List<Integer> getValueGreaterThenAvarageValue(List<Integer> array) {
+        if (array == null) {
+            return new ArrayList<>();
+        }
+
         List<Integer> result = new ArrayList<>();
 
         double avg = getAvarageValue(array);
