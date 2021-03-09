@@ -117,19 +117,19 @@ public class Line {
         return new Point(x, y);
     }
 
-    public static Point crossOX(Line line) {
+    public Point crossOX() {
         Line OX = new Line(
                 new Point(new RationalFraction(4, 1), new RationalFraction(0, 1)),
                 new Point(new RationalFraction(5, 1), new RationalFraction(0, 1)));
 
-        return Line.crosspoint(line, OX);
+        return Line.crosspoint(this, OX);
     }
 
-    public static Point crossOY(Line line) {
+    public Point crossOY() {
         Line OY = new Line(
                 new Point(new RationalFraction(0, 1), new RationalFraction(4, 1)),
                 new Point(new RationalFraction(0, 1), new RationalFraction(5, 1)));
 
-        return Line.crosspoint(line, OY);
+        return Line.crosspoint(this, OY);
     }
 }

@@ -29,6 +29,22 @@ public class LineTest {
     }
 
     @Test
+    public void isParallelNullTest() {
+        Line first = new Line(
+                new Point(
+                        new RationalFraction(1, 1),
+                        new RationalFraction(2, 1)),
+                new Point(
+                        new RationalFraction(4, 1),
+                        new RationalFraction(4, 1)));
+
+        boolean actual = first.isParallel(null);
+        boolean expected = false;
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void crosspointTest() {
         Line first = new Line(
                 new Point(
@@ -53,12 +69,28 @@ public class LineTest {
     }
 
     @Test
+    public void crosspointNullTest() {
+        Line first = new Line(
+                new Point(
+                        new RationalFraction(9, 1),
+                        new RationalFraction(1, 1)),
+                new Point(
+                        new RationalFraction(5, 1),
+                        new RationalFraction(-1, 1)));
+
+        String actual = Line.crosspoint(first, null).toString();
+        String expected = "x = 0/1\ny = 0/1";
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
     public void crossOXTest() {
         Line line = new Line(
                 new Point(new RationalFraction(2, 1), new RationalFraction(0, 1)),
                 new Point(new RationalFraction(8, 1), new RationalFraction(4, 1)));
 
-        String actual = Line.crossOX(line).toString();
+        String actual = line.crossOX().toString();
         String expected = "x = 2/1\ny = 0/6";
 
         Assertions.assertEquals(expected, actual);
@@ -70,7 +102,7 @@ public class LineTest {
                 new Point(new RationalFraction(1, 1), new RationalFraction(4, 1)),
                 new Point(new RationalFraction(0, 1), new RationalFraction(1, 1)));
 
-        String actual = Line.crossOY(line).toString();
+        String actual = line.crossOY().toString();
         String expected = "x = 0/1\ny = 1/1";
 
         Assertions.assertEquals(expected, actual);
