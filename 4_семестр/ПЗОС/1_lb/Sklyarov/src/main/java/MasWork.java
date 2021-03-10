@@ -1,22 +1,18 @@
 public class MasWork {
-
-    int len;
-    int[] orMas;
-    int[] lenMas;
     String mode = "up";
     String orStr;
-    String result = "";
     public String masWork(String mode_) {
 
-        if(orStr.equalsIgnoreCase("")) { return result;}
+        StringBuilder result = new StringBuilder();
+        if(orStr.equalsIgnoreCase("")) { return result.toString();}
         String[] wordMas = orStr.split("\\s");
         if(mode_.equalsIgnoreCase("down") || mode_.equalsIgnoreCase("up")){
             mode = mode_;
         }
         else { return "ERROR! wrong mode of work entered!"; }
-        len = wordMas.length;
-        orMas = new int[len];
-        lenMas = new int[len];
+        int len = wordMas.length;
+        int[] orMas = new int[len];
+        int[] lenMas = new int[len];
 
         for(int i=0;i<len;++i) {
             try {
@@ -65,11 +61,11 @@ public class MasWork {
         }
 
         for(int i=0;i<len;++i) {
-            result += orMas[i];
+            result.append(orMas[i]);
             if(i!=len-1){
-                result += " ";
+                result.append(" ");
             }
         }
-        return result;
+        return result.toString();
     }
 }
