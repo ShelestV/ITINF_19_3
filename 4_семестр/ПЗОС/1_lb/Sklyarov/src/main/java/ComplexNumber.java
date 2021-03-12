@@ -14,9 +14,8 @@ public class ComplexNumber {
 
 
     public static ComplexNumber getSumOfArrayOfComplexNumbers(ComplexNumber[] numMas){
-        int n = numMas.length;
         ComplexNumber result = new ComplexNumber(numMas[0].getReal(), numMas[0].getImagine());
-        for(int i = 1;i<n;i++){
+        for(int i = 1;i<numMas.length;i++){
             double realTmp = result.getReal()+numMas[i].getReal();
             double imagineTmp = result.getImagine()+numMas[i].getImagine();
             result = new ComplexNumber(realTmp, imagineTmp);
@@ -25,9 +24,8 @@ public class ComplexNumber {
     }
 
     public static ComplexNumber getMultiplyOfArrayOfComplexNumbers(ComplexNumber[] numMas){
-        int n = numMas.length;
         ComplexNumber result = new ComplexNumber(numMas[0].getReal(), numMas[0].getImagine());
-        for(int i = 1;i<n;i++){
+        for(int i = 1;i<numMas.length;i++){
             double realTmp = result.getReal()*numMas[i].getReal()-result.getImagine()*numMas[i].getImagine();
             double imagineTmp = result.getReal()*numMas[i].getImagine()+result.getImagine()*numMas[i].getReal();
             result = new ComplexNumber(realTmp, imagineTmp);
@@ -61,7 +59,7 @@ public class ComplexNumber {
         } else{
             str.append(" + i");
         }
-        double tmp1 = num.getImagine()*num.getImagine()/2;
+        double tmp1 = Math.sqrt(num.getImagine()*num.getImagine());
         tmp = String.format("%.2f", tmp1);
         str.append(tmp);
 
