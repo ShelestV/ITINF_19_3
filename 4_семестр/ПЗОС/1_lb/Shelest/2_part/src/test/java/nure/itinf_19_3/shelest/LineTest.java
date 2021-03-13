@@ -23,9 +23,8 @@ public class LineTest {
                         new RationalFraction(-3, 1)));
 
         boolean actual = first.isParallel(second);
-        boolean expected = true;
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertTrue(actual);
     }
 
     @Test
@@ -39,13 +38,12 @@ public class LineTest {
                         new RationalFraction(4, 1)));
 
         boolean actual = first.isParallel(null);
-        boolean expected = false;
 
-        Assertions.assertEquals(expected, actual);
+        Assertions.assertFalse(actual);
     }
 
     @Test
-    public void crosspointTest() {
+    public void intersectionPointTest() {
         Line first = new Line(
                 new Point(
                         new RationalFraction(9, 1),
@@ -62,14 +60,14 @@ public class LineTest {
                         new RationalFraction(1, 1),
                         new RationalFraction(4, 1)));
 
-       String actual = Line.crosspoint(first, second).toString();
+       String actual = Line.intersectionPoint(first, second).toString();
        String expected = "x = 3/1\ny = -2/1";
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void crosspointNullTest() {
+    public void intersectionPointNullTest() {
         Line first = new Line(
                 new Point(
                         new RationalFraction(9, 1),
@@ -78,31 +76,31 @@ public class LineTest {
                         new RationalFraction(5, 1),
                         new RationalFraction(-1, 1)));
 
-        String actual = Line.crosspoint(first, null).toString();
+        String actual = Line.intersectionPoint(first, null).toString();
         String expected = "x = 0/1\ny = 0/1";
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void crossOXTest() {
+    public void intersectOXTest() {
         Line line = new Line(
                 new Point(new RationalFraction(2, 1), new RationalFraction(0, 1)),
                 new Point(new RationalFraction(8, 1), new RationalFraction(4, 1)));
 
-        String actual = line.crossOX().toString();
+        String actual = line.intersectOX().toString();
         String expected = "x = 2/1\ny = 0/6";
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void crossOYTest() {
+    public void intersectOYTest() {
         Line line = new Line(
                 new Point(new RationalFraction(1, 1), new RationalFraction(4, 1)),
                 new Point(new RationalFraction(0, 1), new RationalFraction(1, 1)));
 
-        String actual = line.crossOY().toString();
+        String actual = line.intersectOY().toString();
         String expected = "x = 0/1\ny = 1/1";
 
         Assertions.assertEquals(expected, actual);

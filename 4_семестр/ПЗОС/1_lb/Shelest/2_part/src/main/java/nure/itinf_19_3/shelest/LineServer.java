@@ -12,12 +12,15 @@ public class LineServer {
         List<Line> list = new ArrayList<>();
         list.add(lines.get(0));
         result.add(list);
-        for (int indexLines = 1; indexLines < lines.size(); ++indexLines) {
+
+        // il - index of lines
+        for (int il = 1; il < lines.size(); ++il) {
             boolean isPar = false;
-            for (int indexResultLines = 0; indexResultLines < result.size(); ++indexResultLines) {
-                for (int indexResultLine = 0; indexResultLine < result.get(indexResultLines).size(); ++indexResultLine) {
-                    if (result.get(indexResultLines).get(indexResultLine).isParallel(lines.get(indexLines))) {
-                        result.get(indexResultLines).add(lines.get(indexLines));
+            for (List<Line> lineList : result) {
+                // irl - index of result lines
+                for (int irl = 0; irl < lineList.size(); ++irl) {
+                    if (lineList.get(irl).isParallel(lines.get(il))) {
+                        lineList.add(lines.get(il));
                         isPar = true;
                         break;
                     }
@@ -28,7 +31,7 @@ public class LineServer {
             }
             if (!isPar) {
                 List<Line> inter = new ArrayList<>();
-                inter.add(lines.get(indexLines));
+                inter.add(lines.get(il));
                 result.add(inter);
             }
         }

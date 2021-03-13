@@ -1,8 +1,8 @@
 package nure.itinf_19_3.shelest;
 
 public class Point {
-    private RationalFraction x;
-    private RationalFraction y;
+    private final RationalFraction x;
+    private final RationalFraction y;
     
     public Point() {
         x = new RationalFraction(0, 1);
@@ -14,16 +14,8 @@ public class Point {
         this.y = y;
     }
     
-    public void setX(RationalFraction x) {
-        this.x = x;
-    }
-    
     public RationalFraction getX() {
         return x;
-    }
-    
-    public void setY(RationalFraction y) {
-        this.y = y;
     }
     
     public RationalFraction getY() {

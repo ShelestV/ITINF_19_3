@@ -1,33 +1,12 @@
 package nure.itinf_19_3.shelest;
 
 public class Line {
-    private Point A;
-    private Point B;
-    
-    public Line() {
-        A = new Point();
-        B = new Point();
-    }
+    private final Point A;
+    private final Point B;
     
     public Line(Point first, Point second) {
         this.A = first;
         this.B = second;
-    }
-    
-    public Point getA() {
-        return A;
-    }
-    
-    public void setA(Point A) {
-        this.A = A;
-    }
-    
-    public Point getB() {
-        return B;
-    }
-    
-    public void setB(Point B) {
-        this.B = B;
     }
 
     @Override
@@ -47,26 +26,14 @@ public class Line {
     }
 
     public boolean isParallel(Line other) {
-        if (other == null) {
-            return false;
-        }
-
-        // 1 - this; 2 - other
-        double A1 = this.A.getY().toDouble() - this.B.getY().toDouble();
-        double B1 = this.B.getX().toDouble() - this.A.getX().toDouble();
-        double A2 = other.A.getY().toDouble() - other.B.getY().toDouble();
-        double B2 = other.B.getX().toDouble() - other.A.getX().toDouble();
-
-        double cos = (A1 * A2 + B1 * B2) /
-                (Math.sqrt(Math.pow(A1, 2.0) + Math.pow(B1, 2.0)) * Math.sqrt(Math.pow(A2, 2.0) + Math.pow(B2, 2.0)));
-        if (Math.round(cos * 1000000) / 1000000 == 1.0 ||
-                Math.round(cos * 1000000) / 1000000 == -1.0) {
-            return true;
-        }
-        return false;
+        return isParallel(this, other);
     }
 
     public static boolean isParallel(Line first, Line second) {
+        if (first == null || second == null) {
+            return false;
+        }
+
         // 1 - this; 2 - other
         double A1 = first.A.getY().toDouble() - first.B.getY().toDouble();
         double B1 = first.B.getX().toDouble() - first.A.getX().toDouble();
@@ -74,15 +41,14 @@ public class Line {
         double B2 = second.B.getX().toDouble() - second.A.getX().toDouble();
 
         double cos = (A1 * A2 + B1 * B2) /
-                (Math.sqrt(Math.pow(A1, 2.0) + Math.pow(B1, 2.0)) * Math.sqrt(Math.pow(A2, 2.0) + Math.pow(B2, 2.0)));
-        if (Math.round(cos * 1000000) / 1000000 == 1.0 ||
-                Math.round(cos * 1000000) / 1000000 == -1.0) {
-            return true;
-        }
-        return false;
+                (Math.sqrt(Math.pow(A1, 2.0) + Math.pow(B1, 2.0)) *
+                        Math.sqrt(Math.pow(A2, 2.0) + Math.pow(B2, 2.0)));
+        return Math.ceil(cos * 1000000) / 1000000 == 1.0 ||
+                Math.ceil(cos * 1000000) / 1000000 == -1.0;
     }
 
-    public static Point crosspoint(Line first, Line second) {
+
+    public static Point intersectionPoint(Line first, Line second) {
         if (first == null || second == null ||
             Line.isParallel(first, second)) {
 
@@ -109,7 +75,8 @@ public class Line {
                         RationalFraction.multiply(b2, c1)),
                 RationalFraction.minus(
                         RationalFraction.multiply(a1, b2),
-                        RationalFraction.multiply(a2, b1)));
+                        RationalFraction.multiply(a2, b1))
+        );
 
         RationalFraction y = RationalFraction.division(
                 RationalFraction.addition(RationalFraction.multiply(a1, x).reverse(), c1.reverse()), b1);
@@ -117,19 +84,21 @@ public class Line {
         return new Point(x, y);
     }
 
-    public Point crossOX() {
+    public Point intersectOX() {
         Line OX = new Line(
                 new Point(new RationalFraction(4, 1), new RationalFraction(0, 1)),
-                new Point(new RationalFraction(5, 1), new RationalFraction(0, 1)));
+                new Point(new RationalFraction(5, 1), new RationalFraction(0, 1))
+        );
 
-        return Line.crosspoint(this, OX);
+        return Line.intersectionPoint(this, OX);
     }
 
-    public Point crossOY() {
+    public Point intersectOY() {
         Line OY = new Line(
                 new Point(new RationalFraction(0, 1), new RationalFraction(4, 1)),
-                new Point(new RationalFraction(0, 1), new RationalFraction(5, 1)));
+                new Point(new RationalFraction(0, 1), new RationalFraction(5, 1))
+        );
 
-        return Line.crosspoint(this, OY);
+        return Line.intersectionPoint(this, OY);
     }
 }
