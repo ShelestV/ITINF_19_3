@@ -14,22 +14,6 @@ public class RationalFraction {
         this.n = n;
     }
 
-    public void setM(int m) {
-        this.m = m;
-    }
-
-    public int getM() {
-        return m;
-    }
-
-    public void setN(int n) {
-        this.n = n;
-    }
-
-    public int getN() {
-        return n;
-    }
-
     @Override
     public int hashCode() {
         return super.hashCode();
@@ -51,15 +35,7 @@ public class RationalFraction {
     }
 
     public RationalFraction addition(RationalFraction other) {
-        if (other == null)
-            return new RationalFraction();
-
-        int resultM = other.m * this.n + this.m * other.n;
-        int resultN = other.n * this.n;
-
-        RationalFraction result = new RationalFraction(resultM, resultN);
-
-        return result.simplify();
+        return addition(this, other);
     }
 
     public static RationalFraction addition(RationalFraction a, RationalFraction b) {
@@ -75,15 +51,7 @@ public class RationalFraction {
     }
 
     public RationalFraction minus(RationalFraction other) {
-        if (other == null)
-            return new RationalFraction();
-
-        int resultM =  this.m * other.n - other.m * this.n;
-        int resultN = other.n * this.n;
-
-        RationalFraction result = new RationalFraction(resultM, resultN);
-
-        return result.simplify();
+        return minus(this, other);
     }
 
     public static RationalFraction minus(RationalFraction a, RationalFraction b) {
@@ -99,15 +67,7 @@ public class RationalFraction {
     }
 
     public RationalFraction multiply(RationalFraction other) {
-        if (other == null)
-            return new RationalFraction();
-
-        int resultM =  this.m * other.m;
-        int resultN = other.n * this.n;
-
-        RationalFraction result = new RationalFraction(resultM, resultN);
-
-        return result.simplify();
+        return multiply(this, other);
     }
 
     public static RationalFraction multiply(RationalFraction a, RationalFraction b) {
@@ -123,15 +83,7 @@ public class RationalFraction {
     }
 
     public RationalFraction division(RationalFraction other) {
-        if (other == null)
-            return new RationalFraction();
-
-        int resultM =  this.m * other.n;
-        int resultN = this.n * other.m;
-
-        RationalFraction result = new RationalFraction(resultM, resultN);
-
-        return result.simplify();
+        return division(this, other);
     }
 
     public static RationalFraction division(RationalFraction a, RationalFraction b) {
@@ -151,7 +103,7 @@ public class RationalFraction {
         RationalFraction result = this;
 
         if (result.m < 0 && result.n < 0 ||
-            result.m >= 0 && result.n < 0) {
+                result.m >= 0 && result.n < 0) {
             result.m *= -1;
             result.n *= -1;
         }
@@ -160,7 +112,8 @@ public class RationalFraction {
             int limit = Math.min(Math.abs(result.m), Math.abs(result.n));
             isSimple = true;
             for (int divider = 2; divider <= limit; ++divider) {
-                if (result.m % divider == 0 && result.n % divider == 0) {
+                if (result.m % divider == 0 &&
+                        result.n % divider == 0) {
                     result.m /= divider;
                     result.n /= divider;
                     isSimple = false;
@@ -176,17 +129,3 @@ public class RationalFraction {
         return new RationalFraction(-this.m, this.n);
     }
 }
-/*
-* а)
-* Определить класс Рациональная Дробь в виде пары чисел m и n.
-* Объявить и инициализировать массив из k дробей, ввести/вывести значения для массива дробей.
-* Создать массив/список/множество объектов и передать его в метод,
-* который изменяет каждый элемент массива с четным индексом путем добавления следующего за ним элемента.
-*
-* б)
-* Определить класс Прямая на плоскости (в пространстве),
-* параметры которой задаются с помощью Рациональной Дроби.
-* Определить точки пересечения прямой с осями координат.
-* Определить координаты пересечения двух прямых.
-* Создать массив/список/множество объектов и определить группы параллельных прямых
-*/

@@ -28,18 +28,25 @@ public class LineServerTest {
                 new Point(new RationalFraction(5, 1), new RationalFraction(2, 1))));
 
         List<List<Line>> parallelLines = LineServer.parallelsLines(lines);
-        String actual = "";
-        for (int i = 0; i < parallelLines.size(); ++i) {
-            for (int j = 0; j < parallelLines.get(i).size(); ++j) {
-                actual += parallelLines.get(i).get(j).toString();
+        StringBuilder actual = new StringBuilder();
+        for (List<Line> parallelLine : parallelLines) {
+            for (Line line : parallelLine) {
+                actual.append(line.toString());
             }
-                actual += "\n";
+            actual.append("\n");
         }
 
-        String expected = "A(1/1; 4/1) - B(0/1; 1/1);\n\n" +
-                "A(2/1; 0/1) - B(8/1; 4/1);\nA(5/1; 9/1) - B(-1/1; 5/1);\n\n" +
-                "A(-4/1; 5/1) - B(-1/1; 0/1);\nA(2/1; 7/1) - B(5/1; 2/1);\n\n";
+        String expected = """
+                A(1/1; 4/1) - B(0/1; 1/1);
 
-        Assertions.assertEquals(expected, actual);
+                A(2/1; 0/1) - B(8/1; 4/1);
+                A(5/1; 9/1) - B(-1/1; 5/1);
+
+                A(-4/1; 5/1) - B(-1/1; 0/1);
+                A(2/1; 7/1) - B(5/1; 2/1);
+
+                """;
+
+        Assertions.assertEquals(expected, actual.toString());
     }
 }
