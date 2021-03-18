@@ -1,19 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace _1_lb
 {
-	class Product
+	public class Product
 	{
 		private int _id;
+		private string _name;
 		private double _profitForUnit;
 		private int _amountOfMaterials;
 		private List<Material> _materialStocks;
 		private List<double> _kofMaterialsInProduct;
+		private double _maxProfit;
+		private List<Product> _leftoverProducts;
 
 		public int ID
 		{
 			get => _id;
+		}
+
+		public string Name
+		{
+			get => _name;
+			set => _name = value;
 		}
 
 		public double ProfitForUnit
@@ -37,10 +48,22 @@ namespace _1_lb
 			get => _kofMaterialsInProduct;
 		}
 
+		public double MaxProfit
+		{
+			get => _maxProfit;
+		}
+
+		public List<Product> LeftoverProduct
+		{
+			get => _leftoverProducts;
+		}
+
 		// Lengths of arrays must be equaled!
-		public Product(int index, double profitForUnit, List<Material> materialStocks, List<double> kofMaterialInProduct)
+		public Product(int index, string name, double profitForUnit, List<Material> materialStocks, List<double> kofMaterialInProduct)
 		{
 			_id = index;
+			_name = name;
+			_maxProfit = 0.0;
 
 			if (materialStocks.Count != kofMaterialInProduct.Count)
 			{
@@ -60,25 +83,8 @@ namespace _1_lb
 				_materialStocks.Add(materialStocks[i]);
 				_kofMaterialsInProduct.Add(kofMaterialInProduct[i]);
 			}
-		}
 
-		private static double Min(List<double> collection)
-		{
-			if (collection.Count == 0)
-			{
-				return 0.0;
-			}
-
-			double min = collection[0];
-			for (int i = 1; i < collection.Count; ++i)
-			{
-				if (collection[i] < min)
-				{
-					min = collection[i];
-				}
-			}
-
-			return min;
+			_leftoverProducts = new List<Product>();
 		}
 
 		private bool IsEnoughMaterials(Product product)
@@ -101,18 +107,10 @@ namespace _1_lb
 
 		private bool IsExistedMaterials()
 		{
-			for (int i = 0; i < _amountOfMaterials; ++i)
-			{
-				if (_materialStocks[i].Stock != 0.0)
-				{
-					return true;
-				}
-			}
-
-			return false;
+			return _materialStocks.Any(m => m.Stock != 0.0);
 		}
 
-		public static double GetMaxProductProfitWithoutChanges(Product product)
+		private static double GetMaxProductProfitWithoutChanges(Product product)
 		{
 			if (product.AmountOfMaterials == 0)
 			{
@@ -127,19 +125,16 @@ namespace _1_lb
 				maxProductVolume.Add(product.Stocks[i].Stock / product.Koeficients[i]);
 			}
 
-			double realProductVolume = Min(maxProductVolume);
-			double profit = realProductVolume * product.ProfitForUnit;
-
-			return profit;
+			return maxProductVolume.Min() * product.ProfitForUnit;
 		}
 
-		public double GetMaxProductProfit(List<Product> products)
+		public double GetAndFillMaxProductProfit(List<Product> products)
 		{
-			double resultProfit = GetMaxProductProfitWithoutChanges(this);
+			_maxProfit = GetMaxProductProfitWithoutChanges(this);
 			// realProductVolume creaters in GetMaxProductProfitWithoutChanges()
 			// But don`t returns
 			// So here it`s calculated again, but by another formule
-			double realProductVolume = resultProfit / _profitForUnit;
+			double realProductVolume = _maxProfit / _profitForUnit;
 
 			for (int i = 0; i < _amountOfMaterials; ++i)
 			{
@@ -153,12 +148,17 @@ namespace _1_lb
 
 				for (int i = 0; i < products.Count; ++i)
 				{
-					if (_id == i) { continue; }
+					if (i == this.ID) { continue; }
 
 					if (IsEnoughMaterials(products[i]))
 					{
-						Product iProductWithRealRemainders =
-						   new Product(i, products[i]._profitForUnit, this._materialStocks, products[i]._kofMaterialsInProduct);
+						Product iProductWithRealRemainders = new Product(
+							i, 
+							"",
+							products[i]._profitForUnit, 
+							this._materialStocks, 
+							products[i]._kofMaterialsInProduct
+						);
 
 						double profit = GetMaxProductProfitWithoutChanges(iProductWithRealRemainders);
 						if (profit > maxProfit)
@@ -171,13 +171,14 @@ namespace _1_lb
 
 				if (idMaterialWithMaxProfit != -1)
 				{
-					resultProfit += maxProfit;
+					_maxProfit += maxProfit;
 					double productVolume = maxProfit / products[idMaterialWithMaxProfit].ProfitForUnit;
 
 					for (int i = 0; i < _amountOfMaterials; ++i)
 					{
 						_materialStocks[i].Stock -= productVolume * products[idMaterialWithMaxProfit].Koeficients[i];
 					}
+					_leftoverProducts.Add(products[idMaterialWithMaxProfit]);
 				}
 				else
 				{
@@ -185,15 +186,30 @@ namespace _1_lb
 				}
 			}
 
-			return resultProfit;
+			return _maxProfit;
+		}
+
+		public static Product GetProductWithMaxProfitAmongProducts(List<Product> products)
+		{
+			if (products.Any(p => p.MaxProfit == 0.0))
+			{
+				products.ForEach(p => p.GetAndFillMaxProductProfit(products));
+			}
+			return products
+				.Where(p => p.MaxProfit == products.Select(x => x.MaxProfit).Max())
+				.First();
 		}
 
 		public override string ToString()
 		{
-			StringBuilder result = new StringBuilder("Product " + _id + ":\n");
+			StringBuilder result = new StringBuilder("Product " + _name + ":\n");
+
 			for (int i = 0; i < _amountOfMaterials; ++i)
 			{
-				result.Append("Material " + i + " : stock = " + _materialStocks[i].Stock + ", " + _kofMaterialsInProduct[i] + "\n");
+				result.Append(_materialStocks[i].ToString())
+					.Append(", ")
+					.Append(_kofMaterialsInProduct[i])
+					.Append("\n");
 			}
 			return result.ToString();
 		}

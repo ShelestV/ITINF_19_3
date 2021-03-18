@@ -1,13 +1,14 @@
 ﻿namespace _1_lb
 {
-	class Material
+	public class Material
 	{
-		private int _id;
+		private string _name;
 		private double _stock;
 
-		private int ID
+		public string Name
 		{
-			get => _id;
+			get => _name;
+			set => _name = value;
 		}
 
 		public double Stock
@@ -16,16 +17,21 @@
 			set => _stock = value;
 		}
 
-		public Material(int index,  double stock)
+		public Material(string name, double stock)
 		{
-			_id = index;
+			_name = name;
 			_stock = stock;
 		}
 
 		public Material(Material material)
 		{
-			_id = material._id;
-			_stock = material._stock;
+			_name = material.Name;
+			_stock = material.Stock;
+		}
+
+		public override string ToString()
+		{
+			return _name + " : stock = " + _stock;
 		}
 	}
 }

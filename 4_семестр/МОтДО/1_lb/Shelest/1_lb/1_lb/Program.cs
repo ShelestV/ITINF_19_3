@@ -8,48 +8,97 @@ namespace _1_lb
 		static void Main(string[] args)
 		{
 			List<Product> products = new List<Product>();
-			// 0 700
-			products.Add(new Product(0, 1000, 
-				new List<Material>() 
-				{ 
-					new Material(0, 700),
-					new Material(1, 300),
-					new Material(2, 150)
-				}, 
-				new List<double>() { 0.7, 0.3, 0.0 }));
-			products.Add(new Product(1, 1100,
-				new List<Material>()
-				{
-					new Material(0, 700),
-					new Material(1, 300),
-					new Material(2, 150)
-				},
-				new List<double>() { 0.7, 0.3, 0.2 }));
-			products.Add(new Product(2, 1200,
-				new List<Material>()
-				{
-					new Material(0, 700),
-					new Material(1, 300),
-					new Material(2, 150)
-				},
-				new List<double>() { 0.7, 0.2, 0.3 }));
-
-			double maxProfit = 0.0;
-			foreach (var product in products)
+			List<Material> materials = new List<Material>();
+			
+			string agree = "";
+			int numberOfMaterial = 0;
+			while (agree != "n")
 			{
-				Console.WriteLine(product.ToString());
-				Console.WriteLine();
-				double profit = product.GetMaxProductProfit(products);
-				Console.WriteLine(product.ID + " product : " + profit);
-				Console.WriteLine();
-				Console.WriteLine(product.ToString());
-				Console.WriteLine();
-				if (profit > maxProfit)
+				Console.Clear();
+				Console.WriteLine("Would you like to add material?(y/n)");
+				agree = Console.ReadLine();
+				if (agree == "y")
 				{
-					maxProfit = profit;
+					string name;
+					double stock;
+					Console.WriteLine("Enter material name : ");
+					name = Console.ReadLine();
+					Console.WriteLine("Enter stock : ");
+					try
+					{
+						stock = Convert.ToDouble(Console.ReadLine());
+					}
+					catch (FormatException)
+					{
+						continue;
+					}
+					materials.Add(new Material(name, stock));
+					++numberOfMaterial;
 				}
 			}
-			Console.WriteLine("Max profit : " + maxProfit);
+
+			if (numberOfMaterial == 0)
+			{
+				Console.WriteLine("You should have added materials!\nGoodbye");
+				return;
+			}
+
+			agree = "";
+			int indexProduct = 0;
+			while (agree != "n")
+			{
+				Console.Clear();
+				Console.WriteLine("Would you like to add product?(y/n)");
+				agree = Console.ReadLine();
+				if (agree == "y")
+				{
+					string name;
+					double profitForUnit;
+					List<Material> productMaterials = new List<Material>();
+					List<double> kofMaterialInProduct = new List<double>();
+					Console.WriteLine("Enter name of product : ");
+					name = Console.ReadLine();
+					try
+					{
+						Console.WriteLine("Enter profit for unit : ");
+						profitForUnit = Convert.ToDouble(Console.ReadLine());
+						for (int i = 0; i < numberOfMaterial; ++i)
+						{
+							productMaterials.Add(new Material(materials[i]));
+							Console.WriteLine("How much we need " + materials[i].Name + "?");
+							kofMaterialInProduct.Add(Convert.ToDouble(Console.ReadLine()));
+						}
+					}
+					catch (FormatException)
+					{
+						continue;
+					}
+					products.Add(new Product(indexProduct, name, profitForUnit, productMaterials, kofMaterialInProduct));
+					++indexProduct;
+				}
+				else if (agree == "n")
+				{
+					Console.Clear();
+					if (indexProduct == 0)
+					{
+						Console.WriteLine("You should have added products!\nGoodbye");
+						return;
+					}
+
+					Product result = Product.GetProductWithMaxProfitAmongProducts(products);
+
+					Console.WriteLine("Max profit = " + result.MaxProfit);
+					Console.WriteLine();
+
+					Console.WriteLine(result.ToString());
+
+					if (result.LeftoverProduct.Count != 0)
+					{
+						Console.WriteLine("Products made from leftover : ");
+						result.LeftoverProduct.ForEach(product => Console.WriteLine(product.ToString()));
+					}
+				}
+			}
 		}
 	}
 }
