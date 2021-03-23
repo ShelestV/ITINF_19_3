@@ -1,0 +1,2 @@
+D:\Программирование\Visual Studio\PzOsFirst\Debug\PzOsFirst.exe
+D:\Программирование\Visual Studio\PzOsFirst\Debug\PzOsFirst.pdb
