@@ -1,59 +1,56 @@
 package firstLaba;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Permutator {
-    private static int chainTailPointer;
-    private static int maxLength;
+    private static int currentChainLength;
+    private static int maxChainLength;
     private static ArrayList<String> words;
-    private static  ArrayList<String> chain;
+    private static ArrayList<Boolean> ifTheWordsAreUsed;
+    private static  ArrayList<String> currentChain;
     private static ArrayList<String> maxChain;
 
-    private static int findNextWord(char letter, int n){
-        int i = 0;
-        while(i < words.size() && n > 0){
-            if(words.get(i).charAt(0) == letter) --n;
-            ++i;
-        }
-        if(n == 0) return i - 1;
-        else return -1;
-    }
-
-    private static void buildChain(char letter, int n){
-        int i = findNextWord(letter, n);
-        if(i >= 0){
-            ++chainTailPointer;
-            chain.set(chainTailPointer, words.get(i));
-            var strikethroughWord = new StringBuilder(words.get(i));//вычеркиваем
-            strikethroughWord.setCharAt(0, '-');
-            words.set(i, strikethroughWord.toString());
-            buildChain(words.get(i).charAt(words.get(i).length() - 1), 1);
-            --chainTailPointer;
-            var oldWord = new StringBuilder(words.get(i));//возвращаем
-            oldWord.setCharAt(0, letter);
-            words.set(i, oldWord.toString());
-            buildChain(letter, n + 1);
-        }
-        else{
-            if(chainTailPointer > maxLength){
-                maxChain = new ArrayList<>(chain);
-                maxLength = chainTailPointer;
+    private static void buildChain(String currentWord, int wordIndex){
+        currentChain.add(currentWord);
+        ifTheWordsAreUsed.set(wordIndex, true);
+        ++currentChainLength;
+        var nobodySatisfiesTheCondition = true;
+        for(var i = 0; i < words.size(); ++i){
+            if(!ifTheWordsAreUsed.get(i) && currentWord.charAt(currentWord.length() - 1) == words.get(i).charAt(0)){
+                buildChain(words.get(i), i);
+                nobodySatisfiesTheCondition = false;
             }
         }
+        if(nobodySatisfiesTheCondition){
+            if(currentChainLength > maxChainLength) {
+                maxChain = new ArrayList<>(currentChain);
+                maxChainLength = currentChainLength;
+            }
+        }
+        ifTheWordsAreUsed.set(wordIndex, false);
+        currentChain.remove(currentChainLength - 1);
+        --currentChainLength;
     }
 
     public static ArrayList<String>  permutate(ArrayList<String> inputWords){
-         chainTailPointer = -1;
-         maxLength = 0;
+         currentChainLength = 0;
+         maxChainLength = 0;
          words = inputWords;
-         chain = new ArrayList<>(words.size());
+         ifTheWordsAreUsed = new ArrayList<>(words.size());
+         currentChain = new ArrayList<>(words.size());
          maxChain = new ArrayList<>(words.size());
          for(int i = 0; i < words.size(); ++i){
-             chain.add(null);
-             maxChain.add(null);
+             ifTheWordsAreUsed.add(false);
          }
-        for (String word : words) {
-            buildChain(word.charAt(0), 1);
+        for (var i = 0; i < words.size(); ++i) {
+            buildChain(words.get(i), i);
+        }
+        if(words.size() > maxChainLength){
+            for (String word : words) {
+                if (!maxChain.contains(word)) {
+                    maxChain.add(word);
+                }
+            }
         }
          return maxChain;
     }

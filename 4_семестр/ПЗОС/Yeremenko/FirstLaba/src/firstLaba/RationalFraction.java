@@ -4,18 +4,20 @@ public class RationalFraction {
     private int numerator;
     private int denominator;
 
-    private void checkDenominator(int denominator)
+    private void takeCareOfNegativeDenominator(int denominator)
     {
         if(denominator < 0) {
             numerator = -numerator;
             this.denominator = -denominator;
         }
+        else{
+            this.denominator = denominator;
+        }
     }
 
     public RationalFraction(int numerator, int denominator){
         this.numerator = numerator;
-        checkDenominator(denominator);
-        this.denominator = denominator;
+        takeCareOfNegativeDenominator(denominator);
     }
     public void setNumerator(int numerator){
         this.numerator = numerator;
@@ -24,8 +26,7 @@ public class RationalFraction {
         return numerator;
     }
     public void setDenominator(int denominator){
-        checkDenominator(denominator);
-        this.denominator = denominator;
+        takeCareOfNegativeDenominator(denominator);
     }
     public int getDenominator(){
         return denominator;
