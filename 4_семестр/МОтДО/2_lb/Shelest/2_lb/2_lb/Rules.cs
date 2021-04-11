@@ -18,6 +18,28 @@ namespace _2_lb
 			return 0 <= value && value <= heigth;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value">Specified in coordinate value</param>
+		/// <param name="width">Specified in pixels</param>
+		/// <returns></returns>
+		public static bool IsWithinOnGridWidthWithConvertToPixel(double value, double width)
+		{
+			var valueInPixels = Converter.CoordinateValueToPixelForX(value);
+			return 0 <= valueInPixels && valueInPixels <= width;
+		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="value">Specified in coordinate value</param>
+		/// <param name="width">Specified in pixels</param>
+		/// <returns></returns>
+		public static bool IsWithinOnGridHeigthWithConvertToPixel(double value, double heigth)
+		{
+			var valueInPixels = Converter.CoordinateValueToPixelForY(value, heigth);
+			return 0 <= valueInPixels && valueInPixels <= heigth;
+		}
 	}
 }

@@ -52,20 +52,47 @@ namespace _2_lb
 			var topBorder = new MyLine(leftTopPoint, rightTopPoint);
 			var bottomBorder = new MyLine(leftBottomPoint, rightBottomPoint);
 
-			if (Rules.IsWithinOnGridWidth(line.GetIntersectPoint(leftBorder).X, grid.Width))
-			{ 
-				
+			List<Point> intersectPoints = new List<Point>();
+
+			var lineIntersectLeftBorder = line.GetIntersectPoint(leftBorder);
+			var lineIntersectRightBorder = line.GetIntersectPoint(rightBorder);
+			var lineIntersectTopBorder = line.GetIntersectPoint(topBorder);
+			var lineIntersectBottomBorder = line.GetIntersectPoint(bottomBorder);
+
+			if (Rules.IsWithinOnGridWidthWithConvertToPixel(lineIntersectLeftBorder.X, grid.Width) &&
+				Rules.IsWithinOnGridHeigthWithConvertToPixel(lineIntersectLeftBorder.Y, grid.Height))
+			{
+				intersectPoints.Add(lineIntersectLeftBorder);
+			}
+			if (Rules.IsWithinOnGridWidthWithConvertToPixel(lineIntersectRightBorder.X, grid.Width) &&
+				Rules.IsWithinOnGridHeigthWithConvertToPixel(lineIntersectRightBorder.Y, grid.Height))
+			{
+				intersectPoints.Add(lineIntersectRightBorder);
+			}
+			if (Rules.IsWithinOnGridWidthWithConvertToPixel(lineIntersectTopBorder.X, grid.Width) &&
+				Rules.IsWithinOnGridHeigthWithConvertToPixel(lineIntersectTopBorder.Y, grid.Height))
+			{
+				intersectPoints.Add(lineIntersectTopBorder);
+			}
+			if (Rules.IsWithinOnGridWidthWithConvertToPixel(lineIntersectBottomBorder.X, grid.Width) &&
+				Rules.IsWithinOnGridHeigthWithConvertToPixel(lineIntersectBottomBorder.Y, grid.Height))
+			{
+				intersectPoints.Add(lineIntersectBottomBorder);
 			}
 
-			this.grid.Children.Add(new Line
+			intersectPoints.Distinct();
+			if (intersectPoints.Count == 2)
 			{
-				X1 = Converter.CoordinateValueToPixelForX(line.GetX(-1)),
-				Y1 = Converter.CoordinateValueToPixelForY(line.GetY(-1), grid.Height),
-				X2 = Converter.CoordinateValueToPixelForX(line.GetX(Converter.PixelToCoordinateValueForX(grid.Width))),
-				Y2 = Converter.CoordinateValueToPixelForY(line.GetY(Converter.PixelToCoordinateValueForY(0, grid.Height)), grid.Height),
-				Stroke = Brushes.LawnGreen
-			});
 
+				this.grid.Children.Add(new Line
+				{
+					X1 = intersectPoints[0].X,
+					Y1 = intersectPoints[0].Y,
+					X2 = intersectPoints[1].X,
+					Y2 = intersectPoints[1].Y,
+					Stroke = Brushes.LawnGreen
+				});
+			}
 		}
 
 		public bool IsWithinAreaFormedByGraphics(Point point)
