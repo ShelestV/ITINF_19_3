@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _2_lb
 {
@@ -19,7 +15,7 @@ namespace _2_lb
 			c = cofAfterCompareSymbol;
 		}
 
-		public MyLine(Point A, Point B)
+		public MyLine(MyPoint A, MyPoint B)
 		{
 			a = A.Y - B.Y;
 			b = B.X - A.X;
@@ -36,26 +32,48 @@ namespace _2_lb
 			return (c - (a * x)) / b;
 		}
 
-		public bool IsPointOnLine(Point point)
+		public bool IsPointOnLine(MyPoint point)
 		{
 			return ((a * point.X) + (b * point.Y)) == c;
 		}
 
-		public bool IsPointUnderOrOnLine(Point point)
+		public bool IsPointUnderOrOnLine(MyPoint point)
 		{
-			return ((a * point.X) + (b * point.Y)) <= c;
+			return ((a * point.X) + (b * point.Y)) + c <= 0;
 		}
 
-		public Point GetIntersectPoint(MyLine line)
+		public MyPoint GetIntersectPoint(MyLine line)
 		{
 			double x = ((this.b * line.c) - (this.c * line.b)) / ((this.a * line.b) - (this.b * line.a));
 			double y = -((this.a * x) + this.c) / (this.b);
-			return new Point(x, y);
+			return new MyPoint(x, y);
 		}
 
 		public bool IsIntersect(MyLine line)
 		{
 			return this.a != line.a;
+		}
+
+		public double CalculateDistanceToPoint(MyPoint point)
+		{
+			return Math.Abs((a * point.X) + (b * point.Y) + c) / Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2));
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is MyLine line &&
+				   a == line.a &&
+				   b == line.b &&
+				   c == line.c;
+		}
+
+		public override int GetHashCode()
+		{
+			int hashCode = 1474027755;
+			hashCode = hashCode * -1521134295 + a.GetHashCode();
+			hashCode = hashCode * -1521134295 + b.GetHashCode();
+			hashCode = hashCode * -1521134295 + c.GetHashCode();
+			return hashCode;
 		}
 	}
 }
