@@ -65,4 +65,49 @@ public class MathOp {
 
         return divide(numerator, denominator);
     }
+
+    public static Complex sumArrayElements(Complex[] array) {
+        if (array == null) {
+            return new Complex();
+        }
+
+        var result = new Complex();
+        for (var number : array) {
+            result = sum(result, number);
+        }
+
+        return result;
+    }
+
+    public static Complex multiplyArrayElements(Complex[] array) {
+        if (array == null || array.length == 0) {
+            return new Complex();
+        }
+
+        var result = new Complex(1, 1);
+        for (var number : array) {
+            result = multiply(result, number);
+        }
+
+        return result;
+    }
+
+    public static Fraction sum(Fraction first, Fraction second) {
+        if (first == null || second == null) {
+            return new Fraction();
+        }
+
+        var numerator = sum(multiply(first.getN(), second.getM()), multiply(first.getM(), second.getN()));
+        var denominator = multiply(first.getM(), second.getM());
+
+        return new Fraction(numerator, denominator);
+    }
+
+    public static void sumArrayOddElementsWithEven(Fraction[] array) {
+        if (array != null) {
+            for (int i = 0; i < array.length - 1; i += 2) {
+                array[i] = sum(array[i], array[i + 1]);
+            }
+        }
+    }
 }
