@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\personal\\university\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj": {}
+    "A:\\University\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj": {}
   },
   "projects": {
-    "E:\\personal\\university\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj": {
+    "A:\\University\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\personal\\university\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj",
+        "projectUniqueName": "A:\\University\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj",
         "projectName": "1_lb",
-        "projectPath": "E:\\personal\\university\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\personal\\university\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\obj\\",
+        "projectPath": "A:\\University\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\1_lb.csproj",
+        "packagesPath": "C:\\Users\\starb\\.nuget\\packages\\",
+        "outputPath": "A:\\University\\ITINF\\ITINF\\4_семестр\\МОтДО\\1_lb\\Shelest\\1_lb\\1_lb\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\starb\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.telerik.com/nuget": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
