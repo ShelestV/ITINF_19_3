@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JordanGausse
+﻿namespace JordanGausse
 {
-	class FreeValue
+	class FreeValue : Undefined
 	{
+		public FreeValue(int index, double coeficient) : base(index, coeficient, 1) { }
+		public FreeValue(FreeValue value) : base(value) { }
+
+		public override string ToString()
+		{
+			return Coeficient.ToString();
+		}
 	}
 }
