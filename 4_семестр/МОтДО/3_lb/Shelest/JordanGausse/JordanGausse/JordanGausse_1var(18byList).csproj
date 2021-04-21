@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Equation.cs" />
     <Compile Include="FreeValue.cs" />
+    <Compile Include="InputRules.cs" />
     <Compile Include="JordaneGausse.cs" />
     <Compile Include="Undefined.cs" />
     <Page Include="MainWindow.xaml">

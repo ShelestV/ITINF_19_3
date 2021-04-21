@@ -57,9 +57,9 @@
 
 		public override string ToString()
 		{
-			//if (isManySolutions()) { return coeficient + "x" + id; }
-			//return solution.ToString();
-			return coeficient + "x" + id;
+			string str = "";
+			str = coeficient != 1 ? ("(" + coeficient + ")") : "";	
+			return str + "x" + id;
 		}
 
 		public bool isManySolutions()

@@ -92,9 +92,15 @@ namespace JordanGausse
 			}
 			solutions.Add(undefine);
 		}
-		public static string SolutionString()
+		public static string SolutionString(int numberOfUndefineds)
 		{
 			StringBuilder sb = new StringBuilder();
+			if (solutions.Count != numberOfUndefineds)
+			{
+				sb.Append("Have many solutions, but always: ");
+				sb.Append(Environment.NewLine);
+			}
+
 			foreach (var solution in solutions)
 			{
 				sb.Append(solution.ToString());
@@ -105,6 +111,7 @@ namespace JordanGausse
 			sb.Append(Environment.NewLine);
 			return sb.ToString();
 		}
+
 		public override string ToString()
 		{
 			if (undefineds.Count == 0) { return ""; }
