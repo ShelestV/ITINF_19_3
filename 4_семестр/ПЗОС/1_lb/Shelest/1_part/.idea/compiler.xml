@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="PZOS_1_lb_part_1" />
         <module name="1_lb" />
       </profile>
     </annotationProcessing>
