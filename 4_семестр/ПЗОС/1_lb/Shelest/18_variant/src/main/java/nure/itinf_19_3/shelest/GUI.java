@@ -10,7 +10,7 @@ public class GUI {
     private final JFrame frame;
 
     private int degree;
-    private final int radius;
+    private static final int radius = 200;
 
     public GUI() throws Exception {
         frame = new JFrame("3 lab");
@@ -26,7 +26,6 @@ public class GUI {
         frame.setLocation(300, 300);
 
         degree = 0;
-        radius = 200;
 
         this.repaint();
     }
@@ -52,42 +51,46 @@ public class GUI {
         }
     }
 
-    private int getRadiusX(int degree) {
-        if (degree <= 90) {
-            return (int) Math.round(radius + radius * Math.sin(degree));
+    public static int getRadiusX(int degree) {
+        if (degree < 90) {
+            return (int) Math.round(radius + radius * Math.sin(convertToRadian(degree)));
         }
-        if (degree <= 180) {
-            return (int) Math.round(radius + radius * Math.cos(degree % 90));
+        if (degree < 180) {
+            return (int) Math.round(radius + radius * Math.cos(convertToRadian(degree - 90)));
         }
-        if (degree <= 270) {
-            return (int) Math.round(radius - radius * Math.sin(degree % 90));
+        if (degree < 270) {
+            return (int) Math.round(radius - radius * Math.sin(convertToRadian(degree - 180)));
         }
-        return (int) Math.round(radius - radius * Math.cos(degree % 90));
+        return (int) Math.round(radius - radius * Math.cos(convertToRadian(degree - 270)));
     }
 
-    private int getRadiusY(int degree) {
-        if (degree <= 90) {
-            return (int) Math.round(radius - radius * Math.cos(degree));
+    public static int getRadiusY(int degree) {
+        if (degree < 90) {
+            return (int) Math.round(radius - radius * Math.cos(convertToRadian(degree)));
         }
-        if (degree <= 180) {
-            return (int) Math.round(radius + radius * Math.sin(degree % 90));
+        if (degree < 180) {
+            return (int) Math.round(radius + radius * Math.sin(convertToRadian(degree - 90)));
         }
-        if (degree <= 270) {
-            return (int) Math.round(radius + radius * Math.cos(degree % 90));
+        if (degree < 270) {
+            return (int) Math.round(radius + radius * Math.cos(convertToRadian(degree - 180)));
         }
-        return (int) Math.round(radius - radius * Math.sin(degree % 90));
+        return (int) Math.round(radius - radius * Math.sin(convertToRadian(degree - 270)));
     }
 
-    private void repaint() throws Exception{
+    private static double convertToRadian(double degree) {
+        return degree * 0.0175;
+    }
+
+    private void repaint() throws Exception {
         while (true) {
-            ++degree;
-            frame.repaint();
             try {
-                Thread.sleep(50);
+                Thread.sleep(10);
             }
             catch (Exception e) {
                 throw new Exception();
             }
+            ++degree;
+            frame.repaint();
         }
     }
 }
