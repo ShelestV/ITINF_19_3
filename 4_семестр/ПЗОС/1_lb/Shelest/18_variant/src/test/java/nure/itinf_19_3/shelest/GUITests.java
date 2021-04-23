@@ -3,8 +3,6 @@ package nure.itinf_19_3.shelest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.naming.ldap.ManageReferralControl;
-
 public class GUITests {
     @Test
     public void getRadiusX_0_Test() {
