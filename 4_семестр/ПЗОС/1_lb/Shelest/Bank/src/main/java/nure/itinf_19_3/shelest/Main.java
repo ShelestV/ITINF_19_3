@@ -9,9 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Semaphore semaphore = new Semaphore(1);
         List<Client> clients = new ArrayList<>();
-        clients.add(new Client("Vadim"));
+        clients.add(new Client("Olya"));
         clients.add(new Client("Vova"));
-        clients.add(new Client("Mashtalir"));
+        clients.add(new Client("Katya"));
 
         Bank bank = new Bank(200000, clients);
         List<Cashier> cashiers = new ArrayList<>();
@@ -26,7 +26,7 @@ public class Main {
         Random randomIndex = new Random();
         Random randomMethod = new Random();
         Random randomClient = new Random();
-        while (bank.getBalance() < 500000) {
+        while (bank.getBalance() < 1000000) {
             int indexKassa = randomIndex.nextInt(3);
             int method = randomMethod.nextInt(5);
             int indexClient = randomClient.nextInt(3);
