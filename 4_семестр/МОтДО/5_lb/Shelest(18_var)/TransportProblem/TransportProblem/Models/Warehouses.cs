@@ -12,8 +12,20 @@ namespace TransportProblem.Models
 
 		public int this[int index]
 		{
-			get => stock[index];
-			set => stock[index] = value;
+			get
+			{
+				if (0 <= index && index < Count)
+					return stock[index];
+				else 
+					throw new ArgumentOutOfRangeException();
+			}
+			set
+			{
+				if (0 <= index && index < Count)
+					stock[index] = value;
+				else
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		public int Count { get => stock.Length; }
@@ -36,6 +48,7 @@ namespace TransportProblem.Models
 
 		public Warehouses(Warehouses other)
 		{
+			this.stock = new int[other.Count];
 			for (int i = 0; i < other.Count; ++i)
 				this.stock[i] = other.stock[i];
 		}

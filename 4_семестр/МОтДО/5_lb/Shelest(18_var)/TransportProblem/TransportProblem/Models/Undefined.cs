@@ -32,5 +32,11 @@ namespace TransportProblem.Models
 			this.number = number;
 			isUndefined = false;
 		}
+
+		public override string ToString()
+		{
+			
+			return isUndefined ? "?" : number.ToString();
+		}
 	}
 }

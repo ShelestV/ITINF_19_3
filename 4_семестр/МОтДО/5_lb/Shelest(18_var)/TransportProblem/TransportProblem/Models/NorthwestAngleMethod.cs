@@ -18,19 +18,22 @@ namespace TransportProblem.Models
 
 			var basePlan = new Tarrifs(tarrifs);
 
-			bool InLimits = row <= basePlan.NumberOfRows &&
+			bool inLimits = row <= basePlan.NumberOfRows &&
 				   column <= basePlan.NumberOfColumns;
-			while (InLimits && !IsBuiltBasePlan(tarrifs, warehouses, clients))
+			while (inLimits && !IsBuiltBasePlan(tarrifs, warehouses, clients))
 			{
 				NextIteration(basePlan, warehouses, clients, row, column);
 
 				Console.WriteLine(basePlan.ToString());
 
-				if (basePlan.GetTotalDemand(column) == 0)
+				if (basePlan.GetTotalDemand(column) - clients[column] == 0)
 					++column;
 
-				if (basePlan.GetTotalStock(row) == 0)
+				if (basePlan.GetTotalStock(row) - warehouses[row] == 0)
 					++row;
+
+				inLimits = row < basePlan.NumberOfRows &&
+				   column < basePlan.NumberOfColumns;
 			}
 
 			return basePlan;
@@ -59,9 +62,10 @@ namespace TransportProblem.Models
 			int quantity = Math.Min(demand, stock);
 
 			if (quantity >= 0)
+			{
 				tarrifs[row, column].QuantityOfProduct = quantity;
-			
-
+				tarrifs.NumberOfOccupied += 1;
+			}
 		}
 	}
 }

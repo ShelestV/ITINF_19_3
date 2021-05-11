@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TransportProblem.Models
 {
-	class TransportProblem
+	class TransportationProblem
 	{
 		private Clients clients;
 		private Warehouses warehouses;
@@ -15,7 +15,7 @@ namespace TransportProblem.Models
 		private V[] v;
 		private U[] u;
 
-		public TransportProblem(Tarrifs tarrifs, Warehouses warehouses, Clients clients)
+		public TransportationProblem(Tarrifs tarrifs, Warehouses warehouses, Clients clients)
 		{
 			this.clients = new Clients(clients);
 			this.warehouses = new Warehouses(warehouses);
@@ -45,11 +45,11 @@ namespace TransportProblem.Models
 		{
 			var plan = NorthWestAngleMethod.GetBasePlan(tarrifs, warehouses, clients);
 
-			RecalculateVandU(tarrifs);
-			while (tarrifs.IsOptimal(u, v))
+			RecalculateVandU(plan);
+			while (!plan.IsOptimal(u, v))
 			{
-				RecalculateVandU(tarrifs);
-
+				PotentialMethod.OptimisePlan(plan, u, v);
+				RecalculateVandU(plan);
 			}
 			return plan;
 		}
@@ -59,31 +59,19 @@ namespace TransportProblem.Models
 			u = new U[tarrifs.NumberOfRows];
 			v = new V[tarrifs.NumberOfColumns];
 
-			FillUndefineds(u);
-			FillUndefineds(v);
+			for (int i = 0; i < u.Length; ++i)
+				u[i] = new U();
+			for (int i = 0; i < v.Length; ++i)
+				v[i] = new V();
 
 			u[0].Number = 0;
 
-			while (!IsAllDefined(u) && !IsAllDefined(v))
+			while (!IsAllDefined(u) || !IsAllDefined(v))
 			{
 				NextIteration(tarrifs);
 				if (tarrifs.NumberOfOccupied < tarrifs.TeoreticNumberOfOccupied)
 					SetImaginary(tarrifs);
 			}
-		}
-
-		private void FillUndefineds(Undefined[] undefineds)
-		{
-			for (int i = 0; i < undefineds.Length; ++i)
-				undefineds[i] = new Undefined();
-		}
-
-		private bool IsAllDefined(Undefined[] undefineds)
-		{
-			for (int i = 0; i < undefineds.Length; ++i)
-				if (undefineds[i].IsUndefined)
-					return false;
-			return true;
 		}
 
 		private void NextIteration(Tarrifs tarrifs)
@@ -92,14 +80,14 @@ namespace TransportProblem.Models
 			{
 				for (int j = 0; j < tarrifs.NumberOfColumns; ++j)
 				{
-					if (!tarrifs[i, j].Optimality)
+					if (!tarrifs[i, j].HasProduct)
 						continue;
 
 					if (v[j].IsUndefined && !u[i].IsUndefined)
 						v[j].Number = tarrifs[i, j].Cost - u[i].Number;
 
 					if (!v[j].IsUndefined && u[i].IsUndefined)
-						u[i].Number = tarrifs[i, j].Cost - u[i].Number;
+						u[i].Number = tarrifs[i, j].Cost - v[j].Number;
 				}
 			}
 		}
@@ -112,12 +100,12 @@ namespace TransportProblem.Models
 			{
 				for (int j = 0; j < tarrifs.NumberOfColumns; ++j)
 				{
-					if (tarrifs[i, j].Optimality ||
+					if (tarrifs[i, j].HasProduct ||
 						(v[j].IsUndefined && u[i].IsUndefined))
 						continue;
 
-					if ((row == -1 && column == -1) || 
-						tarrifs[i, j].Cost < tarrifs[row, column].Cost)
+					if ((row == -1 && column == -1) ||
+						tarrifs[i, j].Cost <= tarrifs[row, column].Cost)
 					{
 						row = i;
 						column = j;
@@ -127,9 +115,17 @@ namespace TransportProblem.Models
 
 			if (row != -1 && column != -1)
 			{
-				tarrifs[row, column].QuantityOfProduct = 0;
+				tarrifs[row, column].SetImaginary();
 				tarrifs.NumberOfOccupied += 1;
 			}
+		}
+
+		private bool IsAllDefined(Undefined[] undefineds)
+		{
+			for (int i = 0; i < undefineds.Length; ++i)
+				if (undefineds[i].IsUndefined)
+					return false;
+			return true;
 		}
 	}
 }

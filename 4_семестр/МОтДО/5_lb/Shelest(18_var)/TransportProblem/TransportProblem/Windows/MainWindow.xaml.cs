@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TransportProblem.Models;
 
 namespace TransportProblem
 {
@@ -27,7 +28,37 @@ namespace TransportProblem
 
 		private void PotentialMethodButton_Click(object sender, RoutedEventArgs e)
 		{
+			var warehouses = new Warehouses(3);
+			warehouses[0] = 40;
+			warehouses[1] = 30;
+			warehouses[2] = 35;
 
+			var clients = new Clients(5);
+			clients[0] = 20;
+			clients[1] = 34;
+			clients[2] = 16;
+			clients[3] = 10;
+			clients[4] = 15;
+
+			var tarrifs = new Tarrifs(warehouses.Count, clients.Count);
+			tarrifs[0, 0] = new Tarrif(2);
+			tarrifs[0, 1] = new Tarrif(6);
+			tarrifs[0, 2] = new Tarrif(3);
+			tarrifs[0, 3] = new Tarrif(4);
+			tarrifs[0, 4] = new Tarrif(8);
+			tarrifs[1, 0] = new Tarrif(1);
+			tarrifs[1, 1] = new Tarrif(5);
+			tarrifs[1, 2] = new Tarrif(6);
+			tarrifs[1, 3] = new Tarrif(9);
+			tarrifs[1, 4] = new Tarrif(7);
+			tarrifs[2, 0] = new Tarrif(3);
+			tarrifs[2, 1] = new Tarrif(4);
+			tarrifs[2, 2] = new Tarrif(1);
+			tarrifs[2, 3] = new Tarrif(6);
+			tarrifs[2, 4] = new Tarrif(10);
+
+			var tp = new TransportationProblem(tarrifs, warehouses, clients);
+			tp.GetOptimalPlan();
 		}
 
 		private void AssignmentProblemButton_Click(object sender, RoutedEventArgs e)

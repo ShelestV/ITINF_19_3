@@ -54,7 +54,7 @@ namespace TransportProblem.Models
 			isDegeneratePlan = other.isDegeneratePlan;
 		}
 
-		public void AddDemandBasis()
+		public void AddStockBasis()
 		{
 			var newTarrifs = GetTarrifsCopy();
 			var newDemand = new List<Tarrif>();
@@ -65,7 +65,7 @@ namespace TransportProblem.Models
 			NewTarrifs(newTarrifs);
 		}
 
-		public void AddStockBasis()
+		public void AddDemandBasis()
 		{
 			var newTarrifs = GetTarrifsCopy();
 			for (int i = 0; i < NumberOfRows; ++i)
@@ -92,7 +92,7 @@ namespace TransportProblem.Models
 		private void NewTarrifs(List<List<Tarrif>> tarrifs)
 		{
 			this.tarrifs = new Tarrif[tarrifs.Count][];
-			for (int i = 0; i < tarrifs[0].Count; ++i)
+			for (int i = 0; i < tarrifs.Count; ++i)
 				this.tarrifs[i] = new Tarrif[tarrifs[i].Count];
 
 			for (int i = 0; i < NumberOfRows; ++i)
@@ -126,7 +126,7 @@ namespace TransportProblem.Models
 			{
 				for (int j = 0; j < NumberOfColumns; ++j)
 				{
-					if (tarrifs[i][j].Optimality)
+					if (tarrifs[i][j].HasProduct)
 						continue;
 
 					if (u[i].Number + v[j].Number > tarrifs[i][j].Cost)

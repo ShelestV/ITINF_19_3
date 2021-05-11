@@ -10,7 +10,7 @@ namespace TransportProblem.Models
 	{
 		private int cost;
 		private int quantityOfProduct;
-		private bool optimale;
+		private bool hasProduct;
 
 		public int Cost { get => cost; }
 		public int QuantityOfProduct 
@@ -21,28 +21,55 @@ namespace TransportProblem.Models
 				if (value >= 0)
 				{
 					quantityOfProduct = value;
-					optimale = value != 0;
+					hasProduct = value != 0;
 				}
 			}
 		}
-		public bool Optimality { get => optimale; }
+		public bool HasProduct { get => hasProduct; }
 
 		public Tarrif(int cost)
 		{
 			this.cost = cost;
 			quantityOfProduct = 0;
-			optimale = false;
+			hasProduct = false;
 		}
 
 		public Tarrif(Tarrif other)
 		{
 			this.cost = other.cost;
 			this.quantityOfProduct = other.quantityOfProduct;
+			this.hasProduct = other.hasProduct;
+		}
+
+		public void SetImaginary()
+		{
+			quantityOfProduct = 0;
+			hasProduct = true;
 		}
 
 		public override string ToString()
 		{
-			return cost + (optimale ? "[" + quantityOfProduct + "]" : "");
+			return cost + (hasProduct ? "[" + quantityOfProduct + "]" : "");
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == this)
+				return true;
+			return obj != null &&
+				   obj is Tarrif tarrif &&
+				   cost == tarrif.cost &&
+				   quantityOfProduct == tarrif.quantityOfProduct &&
+				   hasProduct == tarrif.hasProduct;
+		}
+
+		public override int GetHashCode()
+		{
+			int hashCode = 618115868;
+			hashCode = hashCode * -1521134295 + cost.GetHashCode();
+			hashCode = hashCode * -1521134295 + quantityOfProduct.GetHashCode();
+			hashCode = hashCode * -1521134295 + hasProduct.GetHashCode();
+			return hashCode;
 		}
 	}
 }
