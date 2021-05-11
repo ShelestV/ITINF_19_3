@@ -64,11 +64,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Clients.cs" />
-    <Compile Include="Models\NorthwestAngleMethod.cs" />
+    <Compile Include="Models\NorthWestAngleMethod.cs" />
     <Compile Include="Models\PotentialMethod.cs" />
     <Compile Include="Models\Tarrif.cs" />
     <Compile Include="Models\Tarrifs.cs" />
     <Compile Include="Models\TransportProblem.cs" />
+    <Compile Include="Models\U.cs" />
+    <Compile Include="Models\Undefined.cs" />
+    <Compile Include="Models\V.cs" />
     <Compile Include="Models\Warehouses.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

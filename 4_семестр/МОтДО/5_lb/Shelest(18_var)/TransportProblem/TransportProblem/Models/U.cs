@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace TransportProblem.Models
 {
-	class PotentialMethod
+	class U : Undefined
 	{
-		static public void OptimisePlan(Tarrifs tarrifs, Warehouses warehouses, Clients clients)
-		{ 
-			
-		}
+		public U(int number) : base(number) { }
 	}
 }

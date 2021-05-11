@@ -6,30 +6,43 @@ using System.Threading.Tasks;
 
 namespace TransportProblem.Models
 {
-	enum Optimality
-	{ 
-		Optimal,
-		Unoptimal,
-		HaveProduct
-	}
-
 	class Tarrif
 	{
 		private int cost;
 		private int quantityOfProduct;
-		private Optimality optimality;
+		private bool optimale;
+
+		public int Cost { get => cost; }
+		public int QuantityOfProduct 
+		{ 
+			get => quantityOfProduct;
+			set
+			{
+				if (value >= 0)
+				{
+					quantityOfProduct = value;
+					optimale = value != 0;
+				}
+			}
+		}
+		public bool Optimality { get => optimale; }
 
 		public Tarrif(int cost)
 		{
 			this.cost = cost;
 			quantityOfProduct = 0;
-			optimality = Optimality.Unoptimal;
+			optimale = false;
 		}
 
 		public Tarrif(Tarrif other)
 		{
 			this.cost = other.cost;
 			this.quantityOfProduct = other.quantityOfProduct;
+		}
+
+		public override string ToString()
+		{
+			return cost + (optimale ? "[" + quantityOfProduct + "]" : "");
 		}
 	}
 }
