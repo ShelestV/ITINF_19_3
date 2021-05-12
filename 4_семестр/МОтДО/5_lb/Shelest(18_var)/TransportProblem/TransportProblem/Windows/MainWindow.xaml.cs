@@ -41,21 +41,21 @@ namespace TransportProblem
 			clients[4] = 15;
 
 			var tarrifs = new Tarrifs(warehouses.Count, clients.Count);
-			tarrifs[0, 0] = new Tarrif(2);
-			tarrifs[0, 1] = new Tarrif(6);
-			tarrifs[0, 2] = new Tarrif(3);
-			tarrifs[0, 3] = new Tarrif(4);
-			tarrifs[0, 4] = new Tarrif(8);
-			tarrifs[1, 0] = new Tarrif(1);
-			tarrifs[1, 1] = new Tarrif(5);
-			tarrifs[1, 2] = new Tarrif(6);
-			tarrifs[1, 3] = new Tarrif(9);
-			tarrifs[1, 4] = new Tarrif(7);
-			tarrifs[2, 0] = new Tarrif(3);
-			tarrifs[2, 1] = new Tarrif(4);
-			tarrifs[2, 2] = new Tarrif(1);
-			tarrifs[2, 3] = new Tarrif(6);
-			tarrifs[2, 4] = new Tarrif(10);
+			tarrifs[0, 0] = new Tarrif(2, 0, 0);
+			tarrifs[0, 1] = new Tarrif(6, 0, 1);
+			tarrifs[0, 2] = new Tarrif(3, 0, 2);
+			tarrifs[0, 3] = new Tarrif(4, 0, 3);
+			tarrifs[0, 4] = new Tarrif(8, 0, 4);
+			tarrifs[1, 0] = new Tarrif(1, 0, 0);
+			tarrifs[1, 1] = new Tarrif(5, 0, 1);
+			tarrifs[1, 2] = new Tarrif(6, 0, 2);
+			tarrifs[1, 3] = new Tarrif(9, 0, 3);
+			tarrifs[1, 4] = new Tarrif(7, 0, 4);
+			tarrifs[2, 0] = new Tarrif(3, 0, 0);
+			tarrifs[2, 1] = new Tarrif(4, 0, 1);
+			tarrifs[2, 2] = new Tarrif(1, 0, 2);
+			tarrifs[2, 3] = new Tarrif(6, 0, 3);
+			tarrifs[2, 4] = new Tarrif(10, 0, 4);
 
 			var tp = new TransportationProblem(tarrifs, warehouses, clients);
 			tp.GetOptimalPlan();

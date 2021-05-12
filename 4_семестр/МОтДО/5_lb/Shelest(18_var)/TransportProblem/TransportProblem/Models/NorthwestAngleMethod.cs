@@ -13,6 +13,8 @@ namespace TransportProblem.Models
 
 		static public Tarrifs GetBasePlan(Tarrifs tarrifs, Warehouses warehouses, Clients clients)
 		{
+			Console.WriteLine("NorthWest angle method");
+
 			row = 0;
 			column = 0;
 

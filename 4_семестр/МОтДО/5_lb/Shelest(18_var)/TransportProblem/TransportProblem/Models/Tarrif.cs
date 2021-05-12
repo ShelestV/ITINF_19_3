@@ -8,6 +8,8 @@ namespace TransportProblem.Models
 {
 	class Tarrif
 	{
+		private string id;
+
 		private int cost;
 		private int quantityOfProduct;
 		private bool hasProduct;
@@ -27,8 +29,9 @@ namespace TransportProblem.Models
 		}
 		public bool HasProduct { get => hasProduct; }
 
-		public Tarrif(int cost)
+		public Tarrif(int cost, int row, int column)
 		{
+			id = row.ToString() + " " + column.ToString();
 			this.cost = cost;
 			quantityOfProduct = 0;
 			hasProduct = false;
@@ -36,6 +39,7 @@ namespace TransportProblem.Models
 
 		public Tarrif(Tarrif other)
 		{
+			this.id = other.id;
 			this.cost = other.cost;
 			this.quantityOfProduct = other.quantityOfProduct;
 			this.hasProduct = other.hasProduct;
@@ -58,9 +62,7 @@ namespace TransportProblem.Models
 				return true;
 			return obj != null &&
 				   obj is Tarrif tarrif &&
-				   cost == tarrif.cost &&
-				   quantityOfProduct == tarrif.quantityOfProduct &&
-				   hasProduct == tarrif.hasProduct;
+				   this.id.Equals(tarrif.id);
 		}
 
 		public override int GetHashCode()

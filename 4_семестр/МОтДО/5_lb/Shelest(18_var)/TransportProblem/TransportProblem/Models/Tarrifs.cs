@@ -59,7 +59,7 @@ namespace TransportProblem.Models
 			var newTarrifs = GetTarrifsCopy();
 			var newDemand = new List<Tarrif>();
 			for (int j = 0; j < NumberOfColumns; ++j)
-				newDemand.Add(new Tarrif(0));
+				newDemand.Add(new Tarrif(0, NumberOfRows, j));
 			newTarrifs.Add(newDemand);
 
 			NewTarrifs(newTarrifs);
@@ -69,7 +69,7 @@ namespace TransportProblem.Models
 		{
 			var newTarrifs = GetTarrifsCopy();
 			for (int i = 0; i < NumberOfRows; ++i)
-				newTarrifs[i].Add(new Tarrif(0));
+				newTarrifs[i].Add(new Tarrif(0, i, NumberOfColumns));
 
 			NewTarrifs(newTarrifs);
 		}
