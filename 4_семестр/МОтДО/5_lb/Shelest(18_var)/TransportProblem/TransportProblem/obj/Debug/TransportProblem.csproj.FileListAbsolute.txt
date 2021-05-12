@@ -30,3 +30,5 @@ A:\University\ITINF\ITINF\4_семестр\МОтДО\5_lb\Shelest(18_var)\Trans
 A:\University\ITINF\ITINF\4_семестр\МОтДО\5_lb\Shelest(18_var)\TransportProblem\TransportProblem\obj\Debug\TransportProblem.csproj.CoreCompileInputs.cache
 A:\University\ITINF\ITINF\4_семестр\МОтДО\5_lb\Shelest(18_var)\TransportProblem\TransportProblem\obj\Debug\TransportProblem.exe
 A:\University\ITINF\ITINF\4_семестр\МОтДО\5_lb\Shelest(18_var)\TransportProblem\TransportProblem\obj\Debug\TransportProblem.pdb
+E:\personal\university\ITINF\ITINF\4_семестр\МОтДО\5_lb\Shelest(18_var)\TransportProblem\TransportProblem\obj\Debug\Windows\PotentialMethodWindow.g.cs
+E:\personal\university\ITINF\ITINF\4_семестр\МОтДО\5_lb\Shelest(18_var)\TransportProblem\TransportProblem\obj\Debug\Windows\PotentialMethodWindow.baml

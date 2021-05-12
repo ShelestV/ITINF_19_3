@@ -10,9 +10,15 @@ namespace TransportProblem.Models
 	{
 		private string id;
 
+		private int row;
+		private int column;
+
 		private int cost;
 		private int quantityOfProduct;
 		private bool hasProduct;
+
+		public int Row { get => row; }
+		public int Column { get => column; }
 
 		public int Cost { get => cost; }
 		public int QuantityOfProduct 
@@ -32,6 +38,8 @@ namespace TransportProblem.Models
 		public Tarrif(int cost, int row, int column)
 		{
 			id = row.ToString() + " " + column.ToString();
+			this.row = row;
+			this.column = column;
 			this.cost = cost;
 			quantityOfProduct = 0;
 			hasProduct = false;
@@ -40,6 +48,8 @@ namespace TransportProblem.Models
 		public Tarrif(Tarrif other)
 		{
 			this.id = other.id;
+			this.row = other.row;
+			this.column = other.column;
 			this.cost = other.cost;
 			this.quantityOfProduct = other.quantityOfProduct;
 			this.hasProduct = other.hasProduct;

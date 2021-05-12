@@ -12,6 +12,9 @@ namespace TransportProblem.Models
 		private int numberOfOccupied;
 		private bool isDegeneratePlan;
 
+		private int originalNumberOfRows;
+		private int originalNumberOfColumns;
+
 		public int TeoreticNumberOfOccupied { get => NumberOfColumns + NumberOfRows - 1; }
 		public int NumberOfOccupied { get => numberOfOccupied; set => numberOfOccupied = value; }
 		public int NumberOfRows { get => tarrifs.Length; }
@@ -27,6 +30,9 @@ namespace TransportProblem.Models
 		{
 			if (numberOfRows <= 0 || numberOfColumns <= 0)
 				throw new FormatException();
+
+			originalNumberOfRows = numberOfRows;
+			originalNumberOfColumns = numberOfColumns;
 
 			tarrifs = new Tarrif[numberOfRows][];
 			for (int i = 0; i < numberOfRows; ++i)
@@ -136,18 +142,96 @@ namespace TransportProblem.Models
 			return true;
 		}
 
-		public override string ToString()
+		public string GetF()
 		{
-			var tarrifsString = new StringBuilder("Tarrifs");
+			var F = new StringBuilder("Minimum costs: F = ");
+			var numericF = 0;
 			for (int i = 0; i < NumberOfRows; ++i)
 			{
-				tarrifsString.Append(Environment.NewLine);
 				for (int j = 0; j < NumberOfColumns; ++j)
 				{
-					tarrifsString.Append(tarrifs[i][j]).Append("\t");
+					if (tarrifs[i][j].HasProduct)
+					{
+						numericF += tarrifs[i][j].Cost * tarrifs[i][j].QuantityOfProduct;
+						F.Append(tarrifs[i][j].Cost).
+							Append("*").
+							Append(tarrifs[i][j].QuantityOfProduct).
+							Append((i == NumberOfRows - 1 && j == NumberOfColumns - 1) ? "" : " + ");
+					}
 				}
 			}
-			return tarrifsString.ToString() + Environment.NewLine;
+			F.Append(" = ").Append(numericF);
+			return F.ToString();
+		}
+
+		public override string ToString()
+		{
+			var message = new StringBuilder("Must be sended :" + Environment.NewLine);
+			for (int i = 0; i < originalNumberOfRows; ++i)
+			{
+				message.Append("From the ").Append(i + 1).Append(" warehouse to : ");
+				for (int j = 0; j < originalNumberOfColumns; ++j)
+				{
+					message.Append("the ").Append(j + 1).Append(" client ").
+						Append(tarrifs[i][j].QuantityOfProduct).Append(" units of product").
+						Append(j != originalNumberOfColumns - 1 ? ", " : "");
+				}
+				message.Append(Environment.NewLine);
+			}
+
+			if (originalNumberOfRows != NumberOfRows)
+			{
+				for (int i = originalNumberOfRows; i < NumberOfRows; ++i)
+				{
+					for (int j = 0; j < NumberOfColumns; ++j)
+					{
+						if (tarrifs[i][j].HasProduct)
+						{
+							message.Append(tarrifs[i][j].QuantityOfProduct).
+								Append(" units of unclaimed product stay on the ").
+								Append(i + 1).
+								Append(" warehouse").
+								Append(Environment.NewLine);
+						}
+					}
+				}
+			}
+			if (originalNumberOfColumns != NumberOfColumns)
+			{
+				for (int i = 0; i < NumberOfRows; ++i)
+				{
+					for (int j = originalNumberOfColumns; j < NumberOfColumns; ++j)
+					{
+						if (tarrifs[i][j].HasProduct)
+						{
+							message.Append("The ").
+								Append(j + 1).
+								Append(" client is reserved less ").
+								Append(tarrifs[i][j].QuantityOfProduct).
+								Append(" units of product").
+								Append(Environment.NewLine);
+						}
+					}
+				}
+			}
+
+			bool isCongenitalPlan = false;
+			for (int i = 0; i < NumberOfRows; ++i)
+			{
+				for (int j = 0; j < NumberOfColumns; ++j)
+				{
+					if (tarrifs[i][j].HasProduct && tarrifs[i][j].Cost == 0)
+					{
+						isCongenitalPlan = true;
+						message.Append("Optimal plan is congenital because x(").Append(i + 1).Append(", ").Append(j + 1).Append(") = 0").Append(Environment.NewLine);
+					}
+				}
+			}
+
+			if (!isCongenitalPlan)
+				message.Append("Optimal plan is incongenital.");
+			
+			return message.ToString();
 		}
 	}
 }

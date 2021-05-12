@@ -51,6 +51,9 @@ namespace TransportProblem.Models
 				PotentialMethod.OptimisePlan(plan, u, v);
 				RecalculateVandU(plan);
 			}
+
+			Console.WriteLine(plan.ToString());
+			Console.WriteLine(plan.GetF());
 			return plan;
 		}
 
