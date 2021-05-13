@@ -250,12 +250,11 @@ namespace TransportProblem.Models
 			{
 				for (int j = 0; j < originalNumberOfColumns; ++j)
 				{
-					if (tarrifs[i][j].HasProduct)
-					{
-						message.Append("The ").Append(j + 1).Append(" candidate is suitable ");
-					}
+					if (tarrifs[i][j].HasProduct && tarrifs[i][j].QuantityOfProduct != 0)
+						message.Append("The ").Append(j + 1).Append(" candidate is suitable ").
+							    Append("for ").Append(i + 1).Append(" vacancy").
+								Append(Environment.NewLine);
 				}
-				message.Append("for ").Append(i + 1).Append(" vacancy").Append(Environment.NewLine);
 			}
 
 			return message.ToString();
@@ -271,6 +270,36 @@ namespace TransportProblem.Models
 					tarrifsString.Append(tarrifs[i][j]).Append("\t");
 			}
 			return tarrifsString.ToString() + Environment.NewLine;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj == null || !(obj is Tarrifs))
+				return false;
+			if (obj == this)
+				return true;
+
+			var other = obj as Tarrifs;
+
+			if (this.NumberOfRows != other.NumberOfRows ||
+				this.NumberOfColumns != other.NumberOfColumns)
+				return false;
+
+			for (int i = 0; i < NumberOfRows; ++i)
+			{
+				for (int j = 0; j < NumberOfColumns; ++j)
+				{
+					if (!this.tarrifs[i][j].Equals(other.tarrifs[i][j]))
+						return false;
+				}
+			}
+
+			return true;
+		}
+
+		public override int GetHashCode()
+		{
+			return -1518437750 + EqualityComparer<Tarrif[][]>.Default.GetHashCode(tarrifs);
 		}
 	}
 }

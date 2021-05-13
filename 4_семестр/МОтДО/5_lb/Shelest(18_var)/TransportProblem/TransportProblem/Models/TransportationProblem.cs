@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TransportProblem.Models
 {
@@ -37,10 +39,20 @@ namespace TransportProblem.Models
 			}
 		}
 
-		public Tarrifs GetOptimalPlan()
+		public Tarrifs GetOptimalPlanByNorthWestAngleMethod()
 		{
-			var plan = NorthWestAngleMethod.GetBasePlan(tarrifs, warehouses, clients);
+			var basePlan = NorthWestAngleMethod.GetBasePlan(tarrifs, warehouses, clients);
+			return GetOptimalePlan(basePlan);
+		}
 
+		public Tarrifs GetOptimalPlanByMinimalElementsMethod() 
+		{
+			var basePlan = MinimalElementsMethod.GetBasePlan(tarrifs, warehouses, clients);
+			return GetOptimalePlan(basePlan);
+		}
+
+		private Tarrifs GetOptimalePlan(Tarrifs plan)
+		{
 			RecalculateVandU(plan);
 			while (!plan.IsOptimal(u, v))
 			{
@@ -62,6 +74,7 @@ namespace TransportProblem.Models
 
 			u[0].Number = 0;
 
+			Tarrifs previous;
 			while (!IsAllDefined(u) || !IsAllDefined(v))
 			{
 				Console.WriteLine(tarrifs.ToString());
@@ -74,9 +87,13 @@ namespace TransportProblem.Models
 					Console.Write(v[j].ToString() + (j != v.Length - 1 ? ", " : " }"));
 				Console.WriteLine();
 
+				previous = new Tarrifs(tarrifs);
 				NextIteration(tarrifs);
 				if (tarrifs.NumberOfOccupied < tarrifs.TeoreticNumberOfOccupied)
 					SetImaginary(tarrifs);
+
+				if (tarrifs.Equals(previous))
+					ChangeImaginary(tarrifs);
 			}
 		}
 
@@ -123,6 +140,67 @@ namespace TransportProblem.Models
 			{
 				tarrifs[row, column].SetImaginary();
 				tarrifs.NumberOfOccupied += 1;
+			}
+		}
+
+		private void ChangeImaginary(Tarrifs tarrifs)
+		{
+			int row = u.ToList().FindIndex(u => u.IsUndefined);
+			int column = v.ToList().FindIndex(v => v.IsUndefined);
+
+			if (row == -1 || column == -1)
+				return;
+
+			int min = -1;
+
+			int rowOfMin = -1;
+			int columnOfMin = -1;
+
+			for (int i = 0; i < tarrifs.NumberOfRows; ++i)
+			{
+				if (!tarrifs[i, column].HasProduct &&
+					((rowOfMin == -1 && columnOfMin == -1) ||
+					 tarrifs[i, column].Cost < min))
+				{
+					min = tarrifs[i, column].Cost;
+
+					rowOfMin = i;
+					columnOfMin = column;
+				}
+			}
+
+			for (int j = 0; j < tarrifs.NumberOfColumns; ++j)
+			{
+				if ((rowOfMin == -1 && columnOfMin == -1) ||
+					(!tarrifs[row, j].HasProduct && tarrifs[row, j].Cost < min))
+				{
+					min = tarrifs[row, j].Cost;
+
+					rowOfMin = row;
+					columnOfMin = j;
+				}
+			}
+
+			if (rowOfMin != -1 && columnOfMin != -1)
+			{
+				if (rowOfMin == row)
+				{
+					for (int i = 0; i < tarrifs.NumberOfRows; ++i)
+					{
+						if (tarrifs[i, columnOfMin].HasProduct && tarrifs[i, columnOfMin].QuantityOfProduct == 0)
+							tarrifs[i, columnOfMin].QuantityOfProduct = 0;
+					}
+				}
+				if (columnOfMin == column)
+				{
+					for (int j = 0; j < tarrifs.NumberOfColumns; ++j)
+					{
+						if (tarrifs[rowOfMin, j].HasProduct && tarrifs[rowOfMin, j].QuantityOfProduct == 0)
+							tarrifs[rowOfMin, j].QuantityOfProduct = 0;
+					}
+				}
+
+				tarrifs[rowOfMin, columnOfMin].SetImaginary();
 			}
 		}
 

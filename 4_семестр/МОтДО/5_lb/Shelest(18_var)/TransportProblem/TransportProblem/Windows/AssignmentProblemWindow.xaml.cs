@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TransportProblem.Models;
 using TransportProblem.Rools;
 
@@ -57,6 +48,8 @@ namespace TransportProblem.Windows
 					TransportProblemGrid.ColumnDefinitions.Add(column);
 				}
 
+				MainGrid.RowDefinitions[1].Height = new GridLength(30 * numberOfRows);
+
 				for (int i = 0; i < numberOfRows; ++i)
 				{
 					var row = new List<TextBox>();
@@ -100,7 +93,7 @@ namespace TransportProblem.Windows
 			}
 
 			var tp = new TransportationProblem(tarrifs, vacancies, candidates);
-			var optimalePlan = tp.GetOptimalPlan();
+			var optimalePlan = tp.GetOptimalPlanByMinimalElementsMethod();
 
 			for (int i = 0; i < optimalePlan.NumberOfRows; ++i)
 			{

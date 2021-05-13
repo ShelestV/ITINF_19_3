@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TransportProblem.Windows"
         mc:Ignorable="d"
-        Title="AssignmentProblemWindow" 
+        Title="Assignment problem" 
         Height="450" 
         Width="800"
         Background="Black"
         Closed="Window_Closed">
-    <Grid>
+    <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>

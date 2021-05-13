@@ -66,7 +66,10 @@
 				return true;
 			return obj != null &&
 				   obj is Tarrif tarrif &&
-				   this.id.Equals(tarrif.id);
+				   this.id.Equals(tarrif.id) &&
+				   this.cost == tarrif.cost && 
+				   ((this.HasProduct && tarrif.HasProduct && this.quantityOfProduct == tarrif.quantityOfProduct) ||
+				    (!this.HasProduct && !tarrif.HasProduct));
 		}
 
 		public override int GetHashCode()

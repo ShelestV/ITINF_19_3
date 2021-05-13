@@ -10,7 +10,7 @@
         Width="800"
         Background="Black"
         Closed="Window_Closed">
-    <Grid>
+    <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition/>

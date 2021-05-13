@@ -49,6 +49,8 @@ namespace TransportProblem.Windows
 					TransportProblemGrid.ColumnDefinitions.Add(column);
 				}
 
+				MainGrid.RowDefinitions[1].Height = new GridLength((numberOfRows + 1) * 30);
+
 				for (int i = 0; i < numberOfRows + 1; ++i)
 				{
 					var row = new List<TextBox>();
@@ -100,7 +102,7 @@ namespace TransportProblem.Windows
 			}
 
 			var tp = new TransportationProblem(tarrifs, warehouses, clients);
-			var optimalePlan = tp.GetOptimalPlan();
+			var optimalePlan = tp.GetOptimalPlanByNorthWestAngleMethod();
 
 			for (int i = 0; i < optimalePlan.NumberOfRows; ++i)
 			{
