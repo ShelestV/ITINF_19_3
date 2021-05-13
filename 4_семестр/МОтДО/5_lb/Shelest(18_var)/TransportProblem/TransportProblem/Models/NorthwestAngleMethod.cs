@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TransportProblem.Models
 {
@@ -13,8 +9,6 @@ namespace TransportProblem.Models
 
 		static public Tarrifs GetBasePlan(Tarrifs tarrifs, Warehouses warehouses, Clients clients)
 		{
-			Console.WriteLine("NorthWest angle method");
-
 			row = 0;
 			column = 0;
 
@@ -25,8 +19,6 @@ namespace TransportProblem.Models
 			while (inLimits && !IsBuiltBasePlan(tarrifs, warehouses, clients))
 			{
 				NextIteration(basePlan, warehouses, clients, row, column);
-
-				Console.WriteLine(basePlan.ToString());
 
 				if (basePlan.GetTotalDemand(column) - clients[column] == 0)
 					++column;

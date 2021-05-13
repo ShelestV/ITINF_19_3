@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TransportProblem.Models
@@ -43,11 +42,9 @@ namespace TransportProblem.Models
 				}
 			}
 
-			Console.WriteLine("Potential method");
 			if (row != -1 && column != -1)
 			{
 				endAndStartLoopTarrif = tarrifs[row, column];
-				Console.WriteLine(tarrifs.ToString());
 
 				var loop = GetLoop(tarrifs, Direction.Stop, row, column, new List<Tarrif>() { endAndStartLoopTarrif });
 				loop.RemoveAt(loop.Count - 1);
@@ -61,10 +58,17 @@ namespace TransportProblem.Models
 
 				for (int i = 0; i < loop.Count; i += 2)
 				{
-					loop[i].QuantityOfProduct += min;
+					if ((min == 0 && !loop[i].HasProduct) ||
+						(min == 0 && loop[i].HasProduct && loop[i].QuantityOfProduct == 0))
+					{
+						loop[i].SetImaginary();
+					}
+					else
+					{
+						loop[i].QuantityOfProduct += min;
+					}
 					loop[i + 1].QuantityOfProduct -= min;
 				}
-
 			}
 		}
 

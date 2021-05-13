@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TransportProblem.Models
 {
@@ -51,9 +47,6 @@ namespace TransportProblem.Models
 				PotentialMethod.OptimisePlan(plan, u, v);
 				RecalculateVandU(plan);
 			}
-
-			Console.WriteLine(plan.ToString());
-			Console.WriteLine(plan.GetF());
 			return plan;
 		}
 
@@ -71,6 +64,16 @@ namespace TransportProblem.Models
 
 			while (!IsAllDefined(u) || !IsAllDefined(v))
 			{
+				Console.WriteLine(tarrifs.ToString());
+				Console.Write("u { ");
+				for (int i = 0; i < u.Length; ++i)
+					Console.Write(u[i].ToString() + (i != u.Length - 1 ? ", " : " }"));
+				Console.WriteLine();
+				Console.Write("v { ");
+				for (int j = 0; j < v.Length; ++j)
+					Console.Write(v[j].ToString() + (j != v.Length - 1 ? ", " : " }"));
+				Console.WriteLine();
+
 				NextIteration(tarrifs);
 				if (tarrifs.NumberOfOccupied < tarrifs.TeoreticNumberOfOccupied)
 					SetImaginary(tarrifs);

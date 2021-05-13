@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TransportProblem.Models
 {
@@ -44,6 +42,9 @@ namespace TransportProblem.Models
 
 		public Tarrifs(Tarrifs other)
 		{
+			this.originalNumberOfRows = other.originalNumberOfRows;
+			this.originalNumberOfColumns = other.originalNumberOfColumns;
+
 			tarrifs = new Tarrif[other.NumberOfRows][];
 			for (int i = 0; i < other.NumberOfRows; ++i)
 				tarrifs[i] = new Tarrif[other.NumberOfColumns];
@@ -164,7 +165,7 @@ namespace TransportProblem.Models
 			return F.ToString();
 		}
 
-		public override string ToString()
+		public string ToTransportProblemString()
 		{
 			var message = new StringBuilder("Must be sended :" + Environment.NewLine);
 			for (int i = 0; i < originalNumberOfRows; ++i)
@@ -172,9 +173,12 @@ namespace TransportProblem.Models
 				message.Append("From the ").Append(i + 1).Append(" warehouse to : ");
 				for (int j = 0; j < originalNumberOfColumns; ++j)
 				{
-					message.Append("the ").Append(j + 1).Append(" client ").
-						Append(tarrifs[i][j].QuantityOfProduct).Append(" units of product").
-						Append(j != originalNumberOfColumns - 1 ? ", " : "");
+					if (tarrifs[i][j].HasProduct)
+					{
+						message.Append("the ").Append(j + 1).Append(" client ").
+							Append(tarrifs[i][j].QuantityOfProduct).Append(" units of product").
+							Append(j != originalNumberOfColumns - 1 ? ", " : "");
+					}
 				}
 				message.Append(Environment.NewLine);
 			}
@@ -185,12 +189,13 @@ namespace TransportProblem.Models
 				{
 					for (int j = 0; j < NumberOfColumns; ++j)
 					{
-						if (tarrifs[i][j].HasProduct)
+						if (tarrifs[i][j].HasProduct && tarrifs[i][j].Cost == 0)
 						{
-							message.Append(tarrifs[i][j].QuantityOfProduct).
-								Append(" units of unclaimed product stay on the ").
-								Append(i + 1).
-								Append(" warehouse").
+							message.Append("The ").
+								Append(j + 1).
+								Append(" client is reserved less ").
+								Append(tarrifs[i][j].QuantityOfProduct).
+								Append(" units of product").
 								Append(Environment.NewLine);
 						}
 					}
@@ -202,14 +207,13 @@ namespace TransportProblem.Models
 				{
 					for (int j = originalNumberOfColumns; j < NumberOfColumns; ++j)
 					{
-						if (tarrifs[i][j].HasProduct)
+						if (tarrifs[i][j].HasProduct && tarrifs[i][j].Cost == 0)
 						{
-							message.Append("The ").
-								Append(j + 1).
-								Append(" client is reserved less ").
-								Append(tarrifs[i][j].QuantityOfProduct).
-								Append(" units of product").
-								Append(Environment.NewLine);
+							message.Append(tarrifs[i][j].QuantityOfProduct).
+								Append(" units of unclaimed product stay on the ").
+								Append(i + 1).
+								Append(" warehouse").
+								Append(Environment.NewLine);							
 						}
 					}
 				}
@@ -223,7 +227,12 @@ namespace TransportProblem.Models
 					if (tarrifs[i][j].HasProduct && tarrifs[i][j].Cost == 0)
 					{
 						isCongenitalPlan = true;
-						message.Append("Optimal plan is congenital because x(").Append(i + 1).Append(", ").Append(j + 1).Append(") = 0").Append(Environment.NewLine);
+						message.Append("Optimal plan is congenital because x(").
+							Append(i + 1).
+							Append(", ").
+							Append(j + 1).
+							Append(") = 0").
+							Append(Environment.NewLine);
 					}
 				}
 			}
@@ -232,6 +241,36 @@ namespace TransportProblem.Models
 				message.Append("Optimal plan is incongenital.");
 			
 			return message.ToString();
+		}
+
+		public string ToAssignmentProblemString()
+		{
+			var message = new StringBuilder();
+			for (int i = 0; i < originalNumberOfRows; ++i)
+			{
+				for (int j = 0; j < originalNumberOfColumns; ++j)
+				{
+					if (tarrifs[i][j].HasProduct)
+					{
+						message.Append("The ").Append(j + 1).Append(" candidate is suitable ");
+					}
+				}
+				message.Append("for ").Append(i + 1).Append(" vacancy").Append(Environment.NewLine);
+			}
+
+			return message.ToString();
+		}
+
+		public override string ToString()
+		{
+			var tarrifsString = new StringBuilder("Tarrifs");
+			for (int i = 0; i < NumberOfRows; ++i)
+			{
+				tarrifsString.Append(Environment.NewLine);
+				for (int j = 0; j < NumberOfColumns; ++j)
+					tarrifsString.Append(tarrifs[i][j]).Append("\t");
+			}
+			return tarrifsString.ToString() + Environment.NewLine;
 		}
 	}
 }

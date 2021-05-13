@@ -1,11 +1,11 @@
-﻿<Window x:Class="TransportProblem.Windows.PotentialMethodWindow"
+﻿<Window x:Class="TransportProblem.Windows.AssignmentProblemWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TransportProblem.Windows"
         mc:Ignorable="d"
-        Title="Potential method" 
+        Title="AssignmentProblemWindow" 
         Height="450" 
         Width="800"
         Background="Black"
@@ -26,7 +26,7 @@
                     Margin="0,20,20,0"
                     Click="GetTransportProblemTableButton_Click"/>
 
-            <Label Content="Warehouses (rows)"
+            <Label Content="Candidates (rows)"
                    Style="{StaticResource BGThemeLabel}"
                    Margin="10,0"/>
             <TextBox Name="RowsTextBox" 
@@ -37,7 +37,7 @@
                      Height="20"
                      Margin="15,30,0,0"/>
 
-            <Label Content="Clients (columns)"
+            <Label Content="Vacancies (columns)"
                    Style="{StaticResource BGThemeLabel}"
                    Margin="150,0"/>
             <TextBox Name="ColumnsTextBox" 

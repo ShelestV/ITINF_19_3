@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
-using TransportProblem.Rools;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using TransportProblem.Models;
+using TransportProblem.Rools;
 
 namespace TransportProblem.Windows
 {
 	/// <summary>
-	/// Логика взаимодействия для PotentialMethod.xaml
+	/// Логика взаимодействия для AssignmentProblemWindow.xaml
 	/// </summary>
-	public partial class PotentialMethodWindow : Window
+	public partial class AssignmentProblemWindow : Window
 	{
 		private int numberOfRows;
 		private int numberOfColumns;
@@ -20,7 +28,7 @@ namespace TransportProblem.Windows
 
 		private Window previousWindow;
 
-		public PotentialMethodWindow(Window previous)
+		public AssignmentProblemWindow(Window previous)
 		{
 			InitializeComponent();
 
@@ -33,7 +41,7 @@ namespace TransportProblem.Windows
 			if (Rool.IsCorrectUnsignedInt(RowsTextBox.Text, out numberOfRows) &&
 				Rool.IsCorrectUnsignedInt(ColumnsTextBox.Text, out numberOfColumns))
 			{
-				for (int i = 0; i < numberOfRows + 1; ++i)
+				for (int i = 0; i < numberOfRows; ++i)
 				{
 					var row = new RowDefinition();
 					GridLength height = new GridLength(30);
@@ -41,7 +49,7 @@ namespace TransportProblem.Windows
 					TransportProblemGrid.RowDefinitions.Add(row);
 				}
 
-				for (int j = 0; j < numberOfColumns + 1; ++j)
+				for (int j = 0; j < numberOfColumns; ++j)
 				{
 					var column = new ColumnDefinition();
 					GridLength width = new GridLength(50);
@@ -49,17 +57,12 @@ namespace TransportProblem.Windows
 					TransportProblemGrid.ColumnDefinitions.Add(column);
 				}
 
-				for (int i = 0; i < numberOfRows + 1; ++i)
+				for (int i = 0; i < numberOfRows; ++i)
 				{
 					var row = new List<TextBox>();
-					for (int j = 0; j < numberOfColumns + 1; ++j)
+					for (int j = 0; j < numberOfColumns; ++j)
 					{
-						if (i == numberOfRows && j == numberOfColumns)
-							continue;
 						row.Add(GetTextBox(i, j));
-
-						if (i == numberOfRows || j == numberOfColumns)
-							row[j].BorderBrush = Brushes.Aquamarine;
 						TransportProblemGrid.Children.Add(row[j]);
 					}
 					transportProblemTextBoxes.Add(row);
@@ -75,31 +78,28 @@ namespace TransportProblem.Windows
 		private void CalculateOptimalPlanButton_Click(object sender, RoutedEventArgs e)
 		{
 			var tarrifs = new Tarrifs(numberOfRows, numberOfColumns);
-			var warehouses = new Warehouses(numberOfRows);
-			var clients = new Clients(numberOfColumns);
+			var vacancies = new Warehouses(numberOfRows);
+			var candidates = new Clients(numberOfColumns);
+
+			for (int i = 0; i < transportProblemTextBoxes.Count; ++i)
+				vacancies[i] = 1;
+
+			for (int j = 0; j < transportProblemTextBoxes[0].Count; ++j)
+				candidates[j] = 1;
 
 			for (int i = 0; i < transportProblemTextBoxes.Count; ++i)
 			{
 				for (int j = 0; j < transportProblemTextBoxes[i].Count; ++j)
 				{
-					if (i == transportProblemTextBoxes.Count - 1 &&
-						j == transportProblemTextBoxes[0].Count - 1)
-							continue;
-
 					int value;
 					if (!Rool.IsCorrectUnsignedInt(transportProblemTextBoxes[i][j].Text, out value))
 						return;
 
-					if (i == transportProblemTextBoxes.Count - 1)
-						clients[j] = value;
-					else if (j == transportProblemTextBoxes[i].Count - 1)
-						warehouses[i] = value;
-					else
-						tarrifs[i, j] = new Tarrif(value, i, j);
+					tarrifs[i, j] = new Tarrif(value, i, j);
 				}
 			}
 
-			var tp = new TransportationProblem(tarrifs, warehouses, clients);
+			var tp = new TransportationProblem(tarrifs, vacancies, candidates);
 			var optimalePlan = tp.GetOptimalPlan();
 
 			for (int i = 0; i < optimalePlan.NumberOfRows; ++i)
@@ -124,7 +124,7 @@ namespace TransportProblem.Windows
 				for (int j = 0; j < optimalePlan.NumberOfColumns; ++j)
 					ResultGrid.Children.Add(GetTextBlock(optimalePlan[i, j].ToString(), i, j));
 
-			ResultText.Text = optimalePlan.ToTransportProblemString();
+			ResultText.Text = optimalePlan.ToAssignmentProblemString();
 
 			OptimalePlanLabel.Visibility = Visibility.Visible;
 		}
