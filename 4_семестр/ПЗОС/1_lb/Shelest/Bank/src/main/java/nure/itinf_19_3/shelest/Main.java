@@ -7,7 +7,6 @@ import java.util.concurrent.Semaphore;
 
 public class Main {
     public static void main(String[] args) {
-        Semaphore semaphore = new Semaphore(1);
         List<Client> clients = new ArrayList<>();
         clients.add(new Client("Olya"));
         clients.add(new Client("Vova"));
@@ -19,7 +18,7 @@ public class Main {
         cashiers.add(new Cashier(bank));
         cashiers.add(new Cashier(bank));
 
-        Observer observer = new Observer("Observer", bank, cashiers, semaphore);
+        Observer observer = new Observer("Observer", bank, cashiers);
         observer.start();
 
         double previous = bank.getBalance();
@@ -31,16 +30,35 @@ public class Main {
             int method = randomMethod.nextInt(5);
             int indexClient = randomClient.nextInt(3);
             switch (method) {
-                case 0 -> cashiers.get(indexKassa).withdrawCashFromAccount(
-                        clients.get(indexClient), 10000);
-                case 1 -> cashiers.get(indexKassa).putCashOnAccount(
-                        clients.get(indexClient), 100);
-                case 2 -> cashiers.get(indexKassa).pay(
-                        clients.get(indexClient), 100);
-                case 3 -> cashiers.get(indexKassa).transferCash(
-                        clients.get(indexClient), clients.get(indexKassa).getAccount(), 100);
-                case 4 -> cashiers.get(indexKassa).convertTo(
-                        clients.get(indexClient), 0.9);
+                case 0: {
+                    cashiers.get(indexKassa).withdrawCashFromAccount(
+                            clients.get(indexClient), 10000);
+                    System.out.println(clients.get(indexClient).getName() +
+                            " withdraw 10000 from account");
+                }
+                case 1: {
+                    cashiers.get(indexKassa).putCashOnAccount(
+                            clients.get(indexClient), 100);
+                    System.out.println(clients.get(indexClient).getName() +
+                            " push 100 on account");
+                }
+                case 2: {
+                    cashiers.get(indexKassa).pay(
+                            clients.get(indexClient), 100);
+                    System.out.println(clients.get(indexClient).getName() +
+                            " pay 100");
+                }
+                case 3: {
+                    cashiers.get(indexKassa).transferCash(
+                            clients.get(indexClient), clients.get(indexKassa).getAccount(), 100);
+                    System.out.println(clients.get(indexClient).getName() +
+                            " transfer 100 to " + clients.get(indexKassa).getName());
+                }
+                case 4: {
+                    cashiers.get(indexKassa).convertTo(
+                            clients.get(indexClient), 0.9);
+                    System.out.println(clients.get(indexClient).getName() + " convert money");
+                }
             }
             if (bank.getBalance() != previous) {
                 for (Client client : clients) {

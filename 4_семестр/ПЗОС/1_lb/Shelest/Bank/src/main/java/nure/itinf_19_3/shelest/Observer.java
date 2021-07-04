@@ -11,13 +11,10 @@ public class Observer extends Thread {
     private final Bank bank;
     private final List<Cashier> cashiers;
 
-    Semaphore semaphore;
-
-    Observer(String name, Bank bank, List<Cashier> cashiers, Semaphore semaphore) {
+    Observer(String name, Bank bank, List<Cashier> cashiers) {
         super(name);
         this.bank = bank;
         this.cashiers = cashiers;
-        this.semaphore = semaphore;
     }
 
     public void run() {
